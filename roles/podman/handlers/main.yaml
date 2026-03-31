@@ -1,0 +1,8 @@
+---
+
+- name: Restart Podman
+  become: yes
+  service:
+    name: podman
+    state: restarted
+

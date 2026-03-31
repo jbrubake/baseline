@@ -1,0 +1,7 @@
+---
+
+virtualbox__repo_url:                    http://download.virtualbox.org/virtualbox/rpm/fedora/$releasever/$basearch
+virtualbox__repo_gpgkey_url:             https://www.virtualbox.org/download/oracle_vbox_2016.asc
+virtualbox__extension_pack_download_url: https://download.virtualbox.org/virtualbox/{{virtualbox__version}}/Oracle_VirtualBox_Extension_Pack-{{virtualbox__version}}.vbox-extpack
+virtualbox__license:                     eb31505e56e9b4d0fbca139104da41ac6f6b98f8e78968bdf01b1f3da3c4f9ae
+

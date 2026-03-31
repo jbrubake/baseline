@@ -1,0 +1,23 @@
+---
+
+- name: Install packages
+  become: yes
+  package:
+    name: "{{_item}}"
+    state: present
+  loop: "{{mail__packages}}"
+  loop_control:
+    loop_var: _item
+
+- name: Install msmtp{,-queue} links
+  become: yes
+  file:
+    src: ../share/doc/msmtp/scripts/msmtpq/{{_item}}
+    path: /usr/bin/{{_item}}
+    state: link
+  loop:
+    - msmtpq
+    - msmtp-queue
+  loop_control:
+    loop_var: _item
+

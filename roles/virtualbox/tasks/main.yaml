@@ -1,0 +1,36 @@
+---
+
+- name: Install VirtualBox repository
+  become: yes
+  yum_repository:
+    name: virtualbox
+    description: Virtualbox
+    baseurl: "{{virtualbox__repo_url}}"
+    gpgcheck: yes
+    gpgkey: "{{virtualbox__repo_gpgkey_url}}"
+
+- name: Install virtualbox
+  become: yes
+  package:
+    name: "VirtualBox-{{virtualbox__version|regex_replace('(\\d+\\.\\d+)\\.\\d+', '\\1')}}"
+    state: latest
+
+- name: Check for installed extension pack
+  shell: vboxmanage list extpacks | grep -q 'Oracle VirtualBox Extension Pack'
+  register: _out
+  failed_when: false
+  changed_when: false
+
+- name: Install VirtualBox extension pack
+  when: _out.rc != 0
+  block:
+
+    - name: Download VirtualBox extension pack
+      get_url:
+        url: "{{virtualbox__extension_pack_download_url}}"
+        dest: /tmp/{{virtualbox__extension_pack_download_url|basename}}
+
+    - name: Install VirtualBox extension pack
+      become: yes
+      command: vboxmanage extpack install --accept-license {{virtualbox__license}} /tmp/{{virtualbox__extension_pack_download_url|basename}}
+

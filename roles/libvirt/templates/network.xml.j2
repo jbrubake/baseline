@@ -1,0 +1,12 @@
+<network>
+    <!-- {{ansible_managed}} -->
+    <name>{{net_name}}</name>
+    <bridge name='{{bridge}}'/>
+    <forward/>
+    <ip address='{{gw}}' netmask='{{mask}}'>
+        <dhcp>
+            <range start='{{start}}' end='{{end}}'/>
+        </dhcp>
+    </ip>
+</network>
+

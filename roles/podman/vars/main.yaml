@@ -1,0 +1,6 @@
+---
+
+podman__required_packages:
+  - podman         # Manage Pods, Containers and Container Images | https://podman.io
+  - podman-machine # Metapackage for setting up podman machine    | https://podman.io
+

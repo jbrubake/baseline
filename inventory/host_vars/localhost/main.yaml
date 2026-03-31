@@ -1,0 +1,20 @@
+---
+
+common:
+  hostname: mandos
+  install_dash: yes
+  users:
+    - name: jbrubake
+      comment: Jeremy Brubaker
+      groups:
+        - wheel
+        - dialout
+
+package_tags:
+  - basic
+
+x11:
+  terminal: alacritty
+  window_manager: cwm
+  use_xdm: yes
+

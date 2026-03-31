@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# Wrap pipx to allow system-wide installs
+#
+if [ "$(id -u)" -eq 0 ]; then
+    export PIPX_HOME={{install_dir}}
+    export PIPX_BIN_DIR={{bin_dir}}
+fi
+
+{{install_dir}}/pipx/bin/pipx "$@"
+

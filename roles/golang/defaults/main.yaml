@@ -1,0 +1,4 @@
+---
+
+go__prefix:       "{{go.prefix       | default('/opt')}}"
+

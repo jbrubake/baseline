@@ -1,0 +1,4 @@
+---
+
+google_cloud__prefix: "{{google_cloud.prefix | default('/opt')}}"
+

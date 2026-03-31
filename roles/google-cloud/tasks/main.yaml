@@ -1,0 +1,53 @@
+---
+
+- name: Create google-cloud-cli install directory
+  become: yes
+  file:
+    path: "{{google_cloud__prefix}}"
+    state: directory
+
+# TODO: Improve idempotentcy of google-cloud-cli install
+#
+# 1. Download installer
+# 2. Check hash (get_url should return an md5sum value) against saved hash 
+# 3. Unarchive installer if hash is different
+# 4. Run installer only if installer was unarchived
+# - Get a hash of the downloaded tarball (get_url is supposed to return a md5sum value)
+# - Run installer if hash file is not found
+# - Run installer if hash file is different than generated hash
+# - Save new hash if installer is run
+
+- name: Download google-cloud-cli installer
+  become: yes
+  get_url:
+    url: "{{google_cloud__download_url}}"
+    dest: /tmp/google-cloud.tar.gz
+  register: _download
+
+- name: Extract google-cloud-cli installer
+  become: yes
+  unarchive:
+    src: /tmp/google-cloud.tar.gz
+    dest: "{{google_cloud__prefix}}"
+
+- name: Install google-cloud-cli
+  when: lookup('ansible.builtin.file', google_cloud__prefix + '/google-cloud-sdk/hash', errors='ignore') | default('') != _download.size
+  block:
+
+    - name: Install google-cloud-cli
+      become: yes
+      command: "{{google_cloud__prefix}}/google-cloud-sdk/install.sh --path-update false --command-completion false --usage-reporting false"
+
+    - name: Create hash file
+      become: yes
+      copy:
+        dest: "{{google_cloud__prefix}}/google-cloud-sdk/hash"
+        content: |
+          "{{_download.size}}"
+
+- name: Add 'google-cloud-cli' to $PATH
+  become: yes
+  template:
+    src: templates/google-cloud.sh.j2
+    dest: /etc/profile.d/google-cloud.sh
+

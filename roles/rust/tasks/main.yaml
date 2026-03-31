@@ -1,0 +1,55 @@
+---
+
+- name: Create RUSTUP_HOME/bin
+  become: yes
+  file:
+    path: "{{rust__rustup_home}}"
+    state: directory
+
+- name: Create rust install directory
+  become: yes
+  file:
+    path: "{{rust__rustup_home}}"
+    state: directory
+
+- name: Check if {{rust__rustup_home}}/bin/rustup exists
+  stat:
+    path: "{{rust__rustup_home}}/bin/rustup"
+  register: _have_rust
+  failed_when: no
+
+- name: Install rust
+  when: _have_rust.stat.exists is false
+  block:
+
+  - name: Download rust installer
+    get_url:
+      url: https://sh.rustup.rs
+      dest: /tmp/rustup-init
+      mode: 0755
+      force: yes
+
+  - name: Install rust
+    become: yes
+    shell: /tmp/rustup-init -y --no-modify-path
+    environment:
+      RUSTUP_HOME: "{{rust__rustup_home}}"
+      CARGO_HOME: "{{rust__rustup_home}}"
+
+- name: Update rust
+  when: _have_rust.stat.exists is true
+  become: yes
+  command: "{{rust__rustup_home}}/bin/rustup update"
+  environment:
+    RUSTUP_HOME: "{{rust__rustup_home}}"
+    CARGO_HOME: "{{rust__rustup_home}}"
+  register: _out
+  # TODO: Test 'changed_when' when updating multiple rust toolchains
+  changed_when: not 'unchanged' in _out.stdout
+
+- name: Add 'rust' to $PATH
+  become: yes
+  template:
+    src: templates/rust.sh.j2
+    dest: /etc/profile.d/rust.sh
+

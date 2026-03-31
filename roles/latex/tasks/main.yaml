@@ -1,0 +1,14 @@
+---
+
+- name: Install packages
+  become: yes
+  # NOTE: Install of texlive-scheme-basic fails the first time
+  retries: 1
+  delay: 5
+  package:
+    name: "{{_item}}"
+    state: present
+  loop: "{{latex__packages}}"
+  loop_control:
+    loop_var: _item
+

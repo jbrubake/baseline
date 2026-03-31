@@ -1,0 +1,53 @@
+#!/usr/bin/awk -f
+#
+# db2list: Print FIELD_1 of lines which match given strings
+#
+# Usage: ./db2list TYPE TAG_LIST FILES...
+#
+# TYPE is a string that will be matched against Field 2
+# TAG_LIST is a space separated list of tags
+# FILES is a list of files to search
+#
+# Input files should be formatted like this:
+#
+# FIELD_1  | FIELD_2  | FIELD_3                 [| <arbitrary data>]
+# <string> | <string> | TAG_1, TAG_2, ... TAG_N [| <arbitrary data>]
+#
+# - Lines beginning with a # (preceded by any amount of whitespace) are skipped
+# - Lines where TYPE does not exactly match FIELD_2 are skipped. An empty TYPE
+#   matches any line
+# - Lines where no value in TAG_LIST matches any value in FIELD_3 are skipped
+# - FIELD_1 from any remaining lines is printed
+#
+BEGIN {
+    if (ARGC != 4) {
+        print "Usage: db2list TYPE TAG_LIST FILE..." > "/dev/stderr"
+        exit 1
+    }
+
+    FS = "|"
+
+    # Convert type to a regex
+    if (ARGV[1] != "") {
+        type = "\\<" ARGV[1] "\\>"
+    }
+
+    # Convert tag list to a regex of the form:
+    # \<TAG1\>|\<TAG2\>...\<TAGN\>
+    tags = ARGV[2]
+    gsub(/[[:blank:]]+/, "\\>|\\<", tags)
+    sub(/^/, "\\<", tags)
+    sub(/$/, "\\>", tags)
+
+    ARGV[1] = ARGV[2] = ""
+}
+
+# Skip comments and blank lines
+/(^[[:blank:]]*#)|(^[[:space:]]*$)/ { next }
+
+# Skip lines where type != FIELD_2
+$2 !~ "\\<"type"\\>" { next }
+
+# Print FIELD_1 if any tags match
+$3 ~ tags { gsub(/[[:blank:]]*/, "", $1); print $1 }
+

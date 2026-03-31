@@ -1,0 +1,24 @@
+---
+
+# NOTE: Contrary to https://docs.docker.com/engine/install/fedora/
+# container-selinux is not removed as Docker CE requires it
+docker__packages_to_remove:
+  - docker-client
+  - docker-client-latest
+  - docker-common
+  - docker-latest
+  - docker-latest-logrotate
+  - docker-logrotate
+  - docker-engine-selinux
+  - docker-engine
+
+docker__repo_url: https://download.docker.com/linux/fedora/$releasever/$basearch/stable
+docker__repo_gpgkey_url: https://download.docker.com/linux/fedora/gpg
+
+docker__required_packages:
+  - docker-ce             # The open-source application container engine | https://www.docker.com
+  - docker-ce-cli         # The open-source application container engine | https://www.docker.com
+  - containerd.io         # An industry-standard container runtime       | https://containerd.io
+  - docker-buildx-plugin  # Docker Buildx plugin for the Docker CLI      | https://github.com/docker/buildx
+  - docker-compose-plugin # Docker Compose plugin for the Docker CLI     | https://github.com/docker/compose
+

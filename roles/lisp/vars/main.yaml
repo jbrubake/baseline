@@ -1,0 +1,5 @@
+---
+
+lisp__packages:
+  - sbcl # Steel Bank Common Lisp | https://sbcl.sourceforge.io
+

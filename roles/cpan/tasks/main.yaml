@@ -1,0 +1,33 @@
+---
+
+- name: Install packages
+  become: yes
+  # NOTE: Install of perl-App-cpanminus fails the first time
+  retries: 1
+  delay: 5
+  package:
+    name: "{{_item}}"
+    state: latest
+  loop: "{{cpan__required_packages}}"
+  loop_control:
+    loop_var: _item
+
+- name: Install CPAN modules
+  become: yes
+  community.general.cpanm:
+    name: "{{_item}}"
+    mode: new
+  loop: "{{cpan__required_modules + cpan__modules}}"
+  loop_control:
+    loop_var: _item
+
+- name: Get list of CPAN modules to update
+  command: cpan-outdated -p --exclude-core
+  register: _out
+  changed_when: false
+
+- name: Update installed CPAN modules
+  become: yes
+  shell: cpan-outdated --exclude-core | cpanm
+  changed_when: _out.stdout != ''
+

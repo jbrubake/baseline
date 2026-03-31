@@ -1,0 +1,351 @@
+# Package                             | Type    | Tags          | Description                                                                                                   | URL
+# =======                             | ====    | ====          | ===========                                                                                                   | ===
+com.discordapp.Discord                | flatpak | basic         | Messaging, voice and video client                                                                             | https://discord.com
+com.makemkv.MakeMKV                   | flatpak | other         | DVD and Blu-ray to MKV converter and network streamer
+com.usebottles.bottles                | flatpak | wine          | Easily run Windows software on Linux with Bottles!                                                            | https://usebottles.com
+org.libreoffice.LibreOffice           | flatpak | libreoffice   | The LibreOffice productivity suite                                                                            | https://libreoffice.org
+org.onlyoffice.desktopeditors         | flatpak | onlyoffice    | Office productivity suite                                                                                     | https://onlyoffice.org
+org.signal.Signal                     | flatpak | basic         | Desktop Signal Messenger client                                                                               | https://signal.org/
+social.whalebird.WhalebirdDesktop     | flatpak | social        | Mastodon, Pleroma, and Misskey client for the desktop                                                         | https://whalebird.social
+bashmount                             | system  | basic         | A menu-driven bash script for mounting removable media                                                        | https://github.com/jamielinux/bashmount
+bluez                                 | system  | basic         | Bluetooth utilities                                                                                           | http://www.bluez.org
+brightnessctl                         | system  | basic         | Read and control device brightness                                                                            | https://github.com/Hummer12007/brightnessctl
+cronie                                | system  | basic         | Cron daemon for executing programs at set times                                                               | https://github.com/cronie-crond/cronie
+curl                                  | system  | basic         | A utility for getting files from remote servers (FTP, HTTP, and others)                                       | https://curl.se
+dash                                  | system  | basic         | Small and fast POSIX-compliant shell                                                                          | http://gondor.apana.org.au/~herbert/dash/
+bashmount                             | system  | essential     | A menu-driven bash script for mounting removable media                                                        | https://github.com/jamielinux/bashmount
+bluez                                 | system  | essential     | Bluetooth utilities                                                                                           | http://www.bluez.org
+brightnessctl                         | system  | essential     | Read and control device brightness                                                                            | https://github.com/Hummer12007/brightnessctl
+cronie                                | system  | essential     | Cron daemon for executing programs at set times                                                               | https://github.com/cronie-crond/cronie
+curl                                  | system  | essential     | A utility for getting files from remote servers (FTP, HTTP, and others)                                       | https://curl.se
+dash                                  | system  | essential     | Small and fast POSIX-compliant shell                                                                          | http://gondor.apana.org.au/~herbert/dash/
+diff-so-fancy                         | system  | essential     | Good-lookin-diffs                                                                                             | https://github.com/so-fancy/diff-so-fancy
+fortune-mod                           | system  | essential     | A program which will display a fortune                                                                        | https://github.com/shlomif/fortune-mod
+fzf                                   | system  | essential     | A command-line fuzzy finder written in Go                                                                     | https://github.com/junegunn/fzf
+git                                   | system  | essential     | Fast Version Control System                                                                                   | https://git-scm.com/
+grc                                   | system  | essential     | Generic Colorizer                                                                                             | http://korpus.juls.savba.sk/~garabik/software/grc.html
+keychain                              | system  | essential     | Agent manager for OpenSSH, ssh.com, Sun SSH, and GnuPG                                                        | https://www.funtoo.org/Keychain
+moreutils                             | system  | essential     | Additional unix utilities                                                                                     | http://kitenet.net/~joey/code/moreutils/
+newsboat                              | system  | essential     | RSS/Atom feed reader for the text console                                                                     | https://www.newsboat.org
+pass                                  | system  | essential     | A password manager using standard Unix tools                                                                  | http://www.passwordstore.org
+pavucontrol                           | system  | essential     | Volume control for PulseAudio                                                                                 | http://freedesktop.org/software/pulseaudio/pavucontrol
+pulseaudio-utils                      | system  | essential     | PulseAudio sound server utilities                                                                             | http://www.freedesktop/org/wiki/Software/PulseAudio
+NetworkManager-tui                    | system  | essential     | NetworkManager curses-based UI                                                                                | https://networkmanager.dev/
+tmux                                  | system  | essential     | A terminal multiplexer                                                                                        | https://tmux.github.io/
+slrn                                  | system  | essential     | A threaded Internet news reader                                                                               | http://slrn.sourceforge.net/
+tree                                  | system  | essential     | File system tree viewer                                                                                       | http://mama.indstate.edu/users/ice/tree/
+unzip                                 | system  | essential     | A utility for unpacking zip files                                                                             | http://www.info-zip.org/UnZip.html
+vim-enhanced                          | system  | essential     | A version of the VIM editor which includes recent enhancements                                                | http://www.vim.org/
+weechat                               | system  | essential     | Portable, fast, light and extensible IRC client                                                               | http://weechat.org
+wget                                  | system  | essential     | A utility for retrieving files using the HTTP or FTP protocols                                                | http://www.gnu.org/software/wget/
+acl                                   | system  | utilities     | so become: unprivileged works                                                                                 | https://savannah.nongnu.org/projects/acl
+age                                   | system  | utilities     | A simple, modern and secure encryption tool                                                                   | https://github.com/FiloSottile/age
+bcal                                  | system  | utilities     | Storage conversion and expression calculator                                                                  | https://github.com/jarun/bca
+bmon                                  | system  | utilities     | bandwidth monitor and rate estimator                                                                          | https://github.com/tgraf/bmon
+boxes                                 | system  | utilities     | Draw any kind of box around some given text                                                                   | http://boxes.thomasjensen.com
+calendar                              | system  | utilities     | Reminder utility                                                                                              | http://www.openbsd.org/cgi-bin/cvsweb/src/usr.bin/calendar
+cheat                                 | system  | utilities     | Help for various commands and their use cases                                                                 | https://github.com/cheat/cheat
+cracklib                              | system  | utilities     | Password strength tester                                                                                      | https://github.com/cracklib/cracklib
+dialog                                | system  | utilities     | A utility for creating TTY dialog boxes                                                                       | https://invisible-island.net/dialog/dialog.html
+dictd                                 | system  | utilities     | DICT protocol (RFC 2229) server and command-line client                                                       | http://www.dict.org
+duf                                   | system  | utilities     | Disk Usage/Free Utility - a better 'df' alternative                                                           | https://github.com/muesli/duf
+elinks                                | system  | utilities     | A text-mode Web browser                                                                                       | https://github.com/rkd77/elinks
+hexyl                                 | system  | utilities     | A command-line hex viewer                                                                                     | https://crates.io/crates/hexyl
+multitail                             | system  | utilities     | View one or multiple files like tail but with multiple windows                                                | https://www.vanheusden.com/multitail/
+pdd                                   | system  | utilities     | Tiny date, time diff calculator                                                                               | https://github.com/jarun/pdd
+picocom                               | system  | utilities     | Minimal serial communications program                                                                         | https://gitlab.com/wsakernel/piccom/
+python3-shtab                         | system  | utilities     | Automagic shell tab completion for Python CLI applications                                                    | https://github.com/interative/shtab
+units                                 | system  | utilities     | A utility for converting amounts from one unit to another                                                     | https://www.gnu.org/software/units/units.html
+yank                                  | system  | utilities     | Tool for selecting and copying text from stdin without a mouse                                                | https://github.com/mptre/yank
+z                                     | system  | utilities     | Maintains a jump-list of the directories you actually use                                                     | https://github.com/rupa/z
+zathura                               | system  | utilities     | A lightweight document viewer                                                                                 | http://pwmt.org/projects/zathura
+zathura-bash-completion               | system  | utilities     | bash-completion files for zathura                                                                             | http://pwmt.org/projects/zathura
+zathura-pdf-poppler                   | system  | utilities     | PDF support for zathura via poppler                                                                           | http://pwmt.org/projects/zathura-pdf-poppler
+zathura-ps                            | system  | utilities     | PS support for zathura via libspectr e                                                                        | http://pwmt.org/projects/zathura-ps
+doctl                                 | system  | cloud         | The official command line interface for the DigitalOcean API                                                  | https://github.com/digitalocean/doctl
+btop                                  | system  | monitors      | Modern and colorful command line resource monitor that shows usage and stats                                  | https://github.com/aristocratos/btop
+htop                                  | system  | monitors      | Interactive process viewer                                                                                    | http://hisham.hm/htop/
+iftop                                 | system  | monitors      | Command line tool that displays bandwidth usage on an interface                                               | http://www.ex-parrot.com/~pdw/iftop/
+inxi                                  | system  | monitors      | Full featured system information script                                                                       | https://github.com/smxi/inxi
+iptraf-ng                             | system  | monitors      | A console-based network monitoring utility                                                                    | https://github.com/iptraf-ng/iptraf-ng/
+ncdu                                  | system  | monitors      | Text-based disk usage viewer                                                                                  | http://dev.yorhel.nl/ncdu/
+ngrep                                 | system  | monitors      | Network layer grep tool                                                                                       | http://ngrep.sourceforge.net
+ntpstat                               | system  | monitors      | Utility to print NTP synchronization status                                                                   | https://github.com/mlichvar/ntpstat
+procs                                 | system  | monitors      | Modern replacement for ps                                                                                     | https://github.com/dalance/procs
+psacct                                | system  | monitors      | Utilities for monitoring process activities                                                                   | https://www.gnu.org/software/acct
+slurm                                 | system  | monitors      | Realtime network interface monitor                                                                            | https://github.com/matthias/slurm
+alacritty                             | system  | x11           | Fast, cross-platform, OpenGL terminal emulator                                                                | https://crates.io/crates/alacritty
+arandr                                | system  | x11           | Simple GTK+ XRandR GUI                                                                                        | https://gitlab.com/arandr/arandr
+bemenu                                | system  | x11           | Dynamic menu library and client program inspired by dmenu                                                     | https://github.com/Cloudef/bemenu
+blueman                               | system  | x11           | GTK+ Bluetooth Manager                                                                                        | https://github.com/blueman-project/blueman
+cwm                                   | system  | x11           | Calm Window Manager by OpenBSD project                                                                        | https://github.com/chneukirchen/cwm
+dunst                                 | system  | x11           | notification daemon                                                                                           | https://dunst-project.org/
+firefox                               | system  | x11           | Mozilla Firefox Web browser                                                                                   | https://www.mozilla.org/firefox/
+scrot                                 | system  | x11           | Command line screen capture utility                                                                           | https://github.com/resurrecting-open-source-projects/scrot
+sxhkd                                 | system  | x11           | Simple X hotkey daemon                                                                                        | https://github.com/baskerville/sxhkd
+wireplumber                           | system  | x11           | A modular session/policy manager for PipeWire                                                                 | https://pipewire.pages.freedesktop.org/wireplumber/
+wmctrl                                | system  | x11           | Command line tool to interact with an X Window Manager                                                        | http://sweb.cz/tripie/utils/wmctrl
+xautolock                             | system  | x11           | Launches a program when your X session has been idle                                                          | http://freshmeat.net/projects/xautolock/
+xbanish                               | system  | x11           | Banish the mouse cursor when typing, show it again when the mouse moves                                       | https://github.com/jcs/xbanish
+xdotool                               | system  | x11           | Fake keyboard/mouse input                                                                                     | http://www.semicomplete.com/projects/xdotool/
+xlockmore                             | system  | x11           | Screen lock and screen saver                                                                                  | http://sillycycle.com/xlockmore.html
+aldo                                  | system  | games         | A morse tutor                                                                                                 | http://aldo.nongnu.org
+angband                               | system  | games         | Popular roguelike role playing game                                                                           | https://rephial.org
+asciiquarium                          | system  | games         | Terminal aquarium                                                                                             | http://www.cyberciti.biz/tips/linux-unix-apple-osx-terminal-ascii-aquarium.html
+banner                                | system  | games         | Prints a short string to the console in very large letters                                                    | https://github.com/pronovic/banner
+bombardier                            | system  | games         | The GNU Bombing utility                                                                                       | https://salsa.debian.org/debian/bombardier
+bsd-games                             | system  | games         | Collection of text-based games                                                                                | https://github.com/msharov/bsd-games
+figlet                                | system  | games         | A program for making large letters out of ordinary text                                                       | http://www.figlet.org/
+gnubg                                 | system  | games         | A backgammon game and analyzer                                                                                | http://www.gnubg.org
+lolcat                                | system  | games         | High-performance implementation of a colorful cat                                                             | https://github.com/jaseg/lolcat/
+nethack                               | system  | games         | A rogue-like single player dungeon exploration game                                                           | https://github.com/NetHack/NetHack
+rogue                                 | system  | games         | The original graphical adventure game                                                                         | https://gitlab.com/philhsmith/rogue
+toilet                                | system  | games         | Display large colorful characters in text mode                                                                | http://caca.zoy.org/wiki/toilet
+awesome                               | system  | x11_other     | Window manager                                                                                                | https://awesomewm.org
+greetd                                | system  | x11_other     | A generic greeter daemon                                                                                      | https://kl.wtf/projects/greetd
+i3                                    | system  | x11_other     | Tiling window manager                                                                                         | http://i3wm.org
+lightdm                               | system  | x11_other     | A cross-desktop Display Manager                                                                               | https://www.freedesktop.org/wiki/Software/LightDM/
+lightdm-gtk                           | system  | x11_other     | LightDM GTK Greeter                                                                                           | https://github.com/Xubuntu/lightdm-gtk-greeter
+polybar                               | system  | x11_other     | status bar                                                                                                    | https://github.com/polybar/polybar
+volumeicon                            | system  | x11_other     | System tray volume icon                                                                                       | https://github.com/Maato/volumeicon
+xmobar                                | system  | x11_other     | text based status bar                                                                                         | https://hackage.haskell.org/package/xmobar
+xmonad                                | system  | x11_other     | Tiling window manager                                                                                         | http://xmonad.org
+bat                                   | system  | util_other    | Cat(1) clone with wings                                                                                       | https://crates.io/crates/bat
+calcurse                              | system  | util_other    | Text-based personal organizer                                                                                 | https://www.calcurse.org
+clifm                                 | system  | util_other    | The shell-like, command line terminal file manager: simple, fast, extensible, and lightweight as hell         | https://github.com/leo-arch/clifm
+colorized-logs                        | system  | util_other    | Tools for logs with ANSI color                                                                                | https://github.com/kilobyte/colorized-logs
+console-login-helper-messages-motdgen | system  | util_other    | Message of the day generator script showing system information                                                | https://github.com/coreos/console-login-helper-messages
+ddgr                                  | system  | util_other    | DuckDuckGo from the terminal                                                                                  | https://github.com/jarun/ddgr
+dmtx-utils                            | system  | util_other    | Tools for working with Data Matrix 2D bar-codes                                                               | https://github.com/dmtx
+dua-cli                               | system  | util_other    | Tool to conveniently learn about the disk usage of directories                                                | https://github.com/Byron/dua-cli
+dvtm                                  | system  | util_other    | Tiling window management for the console                                                                      | http://www.brain-dump.org/projects/dvtm
+fd-find                               | system  | util_other    | Simple, fast and user-friendly alternative to find                                                            | https://github.com/sharkdp/fd
+googler                               | system  | util_other    | Access google search, google site search, google news from the terminal                                       | https://github.com/jarun/googler
+iptables-utils                        | system  | util_other    | iptables misc utilities (including iptables-apply)                                                            | https://git.netfilter.org/iptables
+lftp                                  | system  | util_other    | Sophisticated file transfer program                                                                           | https://lftp.yar.ru
+maim                                  | system  | util_other    | Command-line screen capture tool                                                                              | https://github.com/naelstrof/maim
+mosh                                  | system  | util_other    | Mobile shell that supports roaming and intelligent local echo                                                 | https://mosh.mit.edu/
+multitail                             | system  | util_other    | View multiple logfiles with multiple windows                                                                  | http://www.vanheusden.com/multitail
+navi                                  | system  | util_other    | Interactive cheatsheet tool for the command-line                                                              | https://crates.io/crates/navi
+nmap                                  | system  | util_other    | Network exploration tool and security scanner                                                                 | http://nmap.org/
+nnn                                   | system  | util_other    | The missing terminal file browser for X                                                                       | https://github.com/jarun/nnn
+pandoc                                | system  | util_other    | Conversion between markup formats                                                                             | https://hackage.haskell.org/package/pandoc
+paperkey                              | system  | util_other    | An OpenPGP key archiver                                                                                       | https://www.jabberwocky.com/software/paperkey/
+pinfo                                 | system  | util_other    | An info file viewer                                                                                           | http://pinfo.alioth.debian.org
+poppler-utils                         | system  | util_other    | Command line utilities for converting PDF files                                                               | http://poppler.freedesktop.org
+primesieve                            | system  | util_other    | Fast prime number generator                                                                                   | https://github.com/kimwalisch/primesieve
+progress                              | system  | util_other    | Coreutils Viewer                                                                                              | https://github.com/Xfennec/progress
+pv                                    | system  | util_other    | Tool for monitoring progress of data through a pipeline                                                       | http://www.ivarch.com/programs/pv.shtml
+python3-html2text                     | system  | util_other    | Convert HTML to Markdown-formatted text                                                                       | http://alir3z4.github.io/html2text
+python3-jinja2-cli                    | system  | util_other    | CLI interface to Jinja2                                                                                       | https://pypi.python.org/pypi/jinja2-cli
+python3-pip                           | system  | util_other    | A tool for installing and managing Python3 packages                                                           | https://pip.pypa.io/
+python3-virtualenv                    | system  | util_other    | Tool to create isolated Python environments                                                                   | http://pypi.python.org/pypi/virtualenv
+qemu                                  | system  | util_other    | QEMU is a FAST! processor emulator                                                                            | http://www.qemu.org/
+quotatool                             | system  | util_other    | Utility for filesystem quotas                                                                                 | https://github.com/ekenberg/quotatool
+ranger                                | system  | util_other    | Vim-like file manager                                                                                         | https://github.com/ranger/ranger
+remind                                | system  | util_other    | Sophisticated calendar and alarm program                                                                      | https://dianne.skoll.ca/projects/remind
+ripgrep                               | system  | util_other    | Line oriented search tool                                                                                     | https://crates.io/crates/ripgrep
+sharutils                             | system  | util_other    | The GNU shar utilities for packaging and unpackaging shell archives                                           | http://www.gnu.org/software/sharutils/
+sipcalc                               | system  | util_other    | An "advanced" console based ip subnet calculator                                                              | https://github.com/sii/sipcalc
+sshuttle                              | system  | util_other    | Transparent Proxy VPN                                                                                         | https://github.com/sshuttle/sshuttle
+stow                                  | system  | util_other    | Manage the installation of software packages from source                                                      | http://www.gnu.org/software/stow
+surfraw                               | system  | util_other    | fast unix command line interface to WWW                                                                       | http://surfraw.org
+tesseract                             | system  | util_other    | Raw OCR Engine                                                                                                | https://github.com/tesseract-ocr/tesseract
+tidy                                  | system  | util_other    | Utility to clean up and pretty print HTML/XHTML/XML                                                           | http://www.html-tidy.org/
+translate-shell                       | system  | util_other    | Command-line translator using Google, Bing, Yandex, etc.                                                      | https://github.com/soimort/translate-shell
+trash-cli                             | system  | util_other    | Command line interface to the freedesktop.org trashcan (various Github repos)                                 | https://github.com/andreafrancia/trash-cli
+udisks2                               | system  | util_other    | Disk Manager                                                                                                  | https://github.com/storaged-project/udisks
+vifm                                  | system  | util_other    | File manager with curses interface, which provides Vi[m]-like environment                                     | http://vifm.info
+vis                                   | system  | util_other    | vi-like editor                                                                                                | https://github.com/martanne/vis
+zoxide                                | system  | util_other    | Faster way to navigate your filesystem                                                                        | https://crates.io/crates/zoxide
+autoconf                              | system  | devel         | A GNU tool for automatically configuring source code                                                          | https://www.gnu.org/software/autoconf/
+automake                              | system  | devel         | A GNU tool for automatically creating Makefiles                                                               | http://www.gnu.org/software/automake/
+bison                                 | system  | devel         | A GNU general-purpose parser generator                                                                        | http://www.gnu.org/software/bison/
+black                                 | system  | devel         | The uncompromising code formatter                                                                             | https://github.com/psf/black
+colorgcc                              | system  | devel         | Script to colorize the compiler output                                                                        | http://schlueters.de/colorgcc.html
+cscope                                | system  | devel         | C source code tree search and browse tool                                                                     | http://cscope.sourceforge.net
+ctags                                 | system  | devel         | A C programming language indexing and/or cross-reference tool                                                 | http://ctags.sourceforge.net/
+doxygen                               | system  | devel         | A documentation system for C/C++                                                                              | http://www.doxygen.nl
+gcc                                   | system  | devel         | Various compilers (C, C++, Objective-C, ...)                                                                  | http://gcc.gnu.org
+gdb                                   | system  | devel         | A stub package for GNU source-level debugger                                                                  | https://gnu.org/software/gdb/
+git                                   | system  | devel         | Fast Version Control System                                                                                   | https://git-scm.com/
+git-email                             | system  | devel         | Git tools for sending patches via email                                                                       | https://git-scm.com/
+python3-jinja2-cli                    | system  | devel         | A CLI interface to Jinja2                                                                                     | https://pypi.python.org/pypi/jinja2-cli
+libtool                               | system  | devel         | The GNU Portable Library Tool                                                                                 | http://www.gnu.org/software/libtool/
+make                                  | system  | devel         | A GNU tool which simplifies the build process for users                                                       | http://www.gnu.org/software/make/
+multi-git-status                      | system  | devel         | Show uncommitted, untracked and unpushed changes for multiple Git repos                                       | https://github.com/fboender/multi-git-status
+ncurses-devel                         | system  | devel         | Development files for the ncurses library                                                                     | https://invisible-island.net/ncurses
+wiggle                                | system  | devel         | A tool for applying patches with conflicts                                                                    | http://neil.brown.name/wiggle/
+hyperfine                             | system  | devel, shell  | A command-line benchmarking tool                                                                              | https://github.com/sharkdp/hyperfine                                            |
+shdoc                                 | system  | devel, shell  | Documentation generator for bash/zsh/sh for generating documentation in Markdown                              | https://github.com/reconquest/shdoc
+ShellCheck                            | system  | devel, shell  | Shell script analysis tool                                                                                    | https://www.shellcheck.net/
+gcc-c++                               | system  | devel, cpp    | C++ support for GCC                                                                                           | http://gcc.gnu.org
+pylint                                | system  | devel, python | Analyzes Python code looking for bugs and signs of poor quality                                               | https://www.pylint.org/
+python3-sphinx                        | system  | devel, python | Python documentation generator                                                                                | https://www.sphinx-doc.org
+hadolint                              | system  | devops        | Dockerfile linter, validate inline bash                                                                       | https://github.com/hadolint/hadolint
+pkgconf-pkg-config                    | system  | devel         | Package compiler and linker metadata toolkit (pkgconf shims)                                                  | http://pkgconf.org
+rpmdevtools                           | system  | devel         | RPM Development Tools                                                                                         | https://pagure.io/rpmdevtools
+gh                                    | system  | devel, git    | GitHub’s official command line tool.                                                                          | https://github.com/cli/cli
+git-gui                               | system  | devel, git    | Graphical interface to Git                                                                                    | https://git-scm.com
+gitui                                 | system  | devel, git    | Blazing fast terminal-ui for git                                                                              | https://github.com/extrawurst/gitui
+tig                                   | system  | devel, git    | Text-mode interface for the git revision control system                                                       | https://jonas.github.io/tig/
+kcachegrind                           | system  | devel, debug  | GUI to profilers such as Valgrind (Qt)                                                                        | http://kcachegrind.sourceforge.net/html/Home.html
+valgrind                              | system  | devel, debug  | Tool for finding memory management bugs in programs                                                           | https://www.valgrind.org/
+valkyrie                              | system  | devel, debug  | Graphical user interface for Valgrind                                                                         | https://www.valgrind.org
+bcc                                   | system  | devel         | BPF Compiler Collection                                                                                       | https://github.com/iovisor/bcc
+cdk-devel                             | system  | devel         | Curses Development Kit                                                                                        | https://github.com/ThomasDickey/cdk-snapshots
+libX11-devel                          | system  | devel         | X11 libraries                                                                                                 | https://xmonad.org
+xorg-x11-util-macros                  | system  | devel         | X.Org X11 Autotools macros                                                                                    | http://www.x.org
+GraphicsMagick                        | system  | graphics      | An ImageMagick fork, offering faster image generation and better quality                                      | http://www.graphicsmagick.org/
+ImageMagick                           | system  | graphics      | An X application for displaying and manipulating images                                                       | http://www.imagemagick.org
+catimg                                | system  | graphics      | Print images in a terminal with 256 colors support                                                            | https://github.com/posva/catimg
+exiv2                                 | system  | graphics      | Exif and Iptc metadata manipulation tool                                                                      | https://www.exiv2.org
+feh                                   | system  | graphics      | Fast command line image viewer using Imlib2                                                                   | http://feh.finalrewind.org
+gcolor3                               | system  | graphics      | A simple color chooser written in GTK3 (like gcolor2)                                                         | https://www.hjdskes.nl/projects/gcolor3/
+gpick                                 | system  | graphics      | Advanced color picker                                                                                         | http://gpick.org
+imv                                   | system  | graphics      | Image viewer for X11 and Wayland                                                                              | https://github.com/eXeC64/imv
+netpbm                                | system  | graphics      | A library for handling different graphics file formats                                                        | http://netpbm.sourceforge.net/
+netpbm-progs                          | system  | graphics      | Tools for manipulating graphics files in netpbm supported formats                                             | http://netpbm.sourceforge.net
+mopidy                                | system  | music         | An extensible music server written in Python                                                                  | https://mopidy.com/
+mopidy-mpd                            | system  | music         | Mopidy extension for controlling Mopidy from MPD clients                                                      | https://mopidy.com/ext/mpd/
+mpc                                   | system  | music         | Command-line client for MPD                                                                                   | http://www.musicpd.org/
+ncmpc                                 | system  | music         | Curses client for the Music Player Daemon (MPD)                                                               | http://www.musicpd.org/clients/ncmpc
+ncmpcpp                               | system  | music         | Featureful ncurses based MPD client inspired by ncmpc                                                         | http://ncmpcpp.rybczak.net/
+bitlbee                               | system  | other         | IRC to other chat networks gateway                                                                            | https://www.bitlbee.org/
+lagrange                              | system  | other         | A Beautiful Gemini Client                                                                                     | https://gmi.skyjake.fi/lagrange/
+patat                                 | system  | other         | Terminal-based presentations using Pandoc                                                                     | https://hackage.haskell.org/package/patat
+perl-Regexp-Common                    | system  | other         | Regexp::Common Perl module                                                                                    | https://metacpan.org/release/Regexp-Common
+profanity                             | system  | other         | A console based XMPP client                                                                                   | https://github.com/profanity-im/profanity
+rofi                                  | system  | other         | A window switcher, application launcher and dmenu replacement                                                 | https://github.com/davatorium/rofi
+rtorrent                              | system  | other         | BitTorrent client based on libtorrent                                                                         | https://github.com/rakshasa/rtorrent
+toolbox                               | system  | toolbox       | Tool for containerized command line environments on Linux                                                     | https://containertoolbx.org
+freerdp                               | system  | other         | Free implementation of the Remote Desktop Protocol (RDP)                                                      | http://www.freerdp.com/
+dosbox-x                              | copr    | games         | DOSBox-X fork of the DOSBox project
+font-manager                          | copr    | basic         | A simple font management application for Gtk+ Desktop Environments                                            | http://fontmanager.github.io/
+lazygit                               | copr    | devel         | Simple terminal UI for git commands                                                                           | https://github.com/jesseduffield/lazygit
+powershell                            | third   | devel         | PowerShell - Cross-platform automation and configuration tool/framework                                       | https://microsoft.com/powershell
+terraform                             | third   | devops        | Terraform enables you to safely and predictably create, change, and improve infratstructure                   | https://terraform.io/
+tofu                                  | third   | devops        | OpenTofu lets you declaratively manage your cloud infrastructure                                              | https://opentofu.org
+wine-stable                           | third   | wine
+ansible-lint                          | pipx    | basic         | Best practices checker for Ansible                                                                            | https://github.com/ansible/ansible-lint
+autorandr                             | pipx    | other         | Auto-detect the connected display hardware and load the appropriate X11 setup using xrandr                    | https://github.com/phillipberndt/autorandr
+buku                                  | pipx    | basic         | Personal mini-web in text                                                                                     | https://github.com/jarun/buku
+gdbgui                                | pipx    | other         | gdb gui                                                                                                       | https://github.com/cs01/gdbgui
+goobook                               | pipx    | other         | Access your Google contacts from the command line                                                             | https://gitlab.com/goobook/goobook
+icdiff                                | pipx    | other         | Improved colored diff
+markdown-it-py                        | pipx    | other         | Markdown parser, done right. 100% CommonMark support, extensions, syntax plugins & high speed. Now in Python! | https://github.com/executablebooks/markdown-it-py
+peru                                  | pipx    | basic         | A generic package manager, for including other people's code in your projects                                 | https://github.com/buildinspace/peru
+smartypants                           | pipx    | other         | Translate plain ASCII punctuation characters into "smart" typographic punctuation HTML entities               | https://github.com/leohemsted/smartypants.py
+tmuxp                                 | pipx    | basic         | tmux session management                                                                                       | https://github.com/tmux-python/tmuxp
+tuir-continued                        | pipx    | basic         | Browse Reddit from your terminal                                                                              | https://gitlab.com/Chocimier/tuir
+voltron                               | pipx    | other         | A hacky debugger UI for hackers                                                                               | https://github.com/snare/voltron
+weathercli                            | pipx    | other         | Weather info at the command line                                                                              | https://github.com/brianriley/weather-cli
+xkcdpass                              | pipx    | other         | A flexible and scriptable password generator which generates strong passphrases, inspired by XKCD 936         | https://github.com/redacted/XKCD-password-generator
+yamllint                              | pipx    | basic         | A linter for YAML files                                                                                       | https://github.com/adrienverge/yamllint
+yt-dlp                                | pip_safe| basic         | A youtube-dl fork with additional features and fixes                                                          | https://github.com/yt-dlp/yt-dlp
+drawio                                | binary  | basic         | !fficial electron build of draw.io, an editor for general diagramming
+signal-cli                            | binary  | basic         | signal-cli provides an unofficial commandline, JSON-RPC and dbus interface for the Signal messenger
+sioyek                                | binary  | basic         | A PDF viewer with a focus on textbooks and research papers
+tea                                   | binary  | basic         | A command line tool to interact with Gitea servers
+yq                                    | binary  | basic         | yq is a portable command-line YAML, JSON, XML, CSV and properties processor
+rpg-cli                               | binary  | basic         | Your filesystem as a dungeon!
+veracrypt                             | binary  | basic         |                                                                                                               | url: https://github.com/veracrypt/VeraCrypt
+browsh                                | binary  | basic         | A fully-modern text-based browser, rendering to TTY and browsers
+wtf                                   | binary  | basic         | The personal information dashboard for your terminal
+ILSpy                                 | binary  | basic         | .NET Decompiler
+rclonebrowser                         | binary  | basic         | Simple cross platform GUI for rclone command line tool                                                        | https://github.com/kapitainsky/RcloneBrowser
+
+# TODO: psdash requires gcc
+# psdash | pipx | other | A linux system information web dashboard using psutils and flask | https://github.com/Jahaja/psdash
+
+# TODO: cli-thesaurus and thesaurus-cli install the same link
+# cli-thesaurus | pipx | other | A command-line interface for Thesaurus.com | https://github.com/sheatsley/thesaurus
+# thesaurus-cli | pipx | other | A command line interface for Thesaurus.com | https://github.com/davidgu/thesaurus-cli
+
+# TODO: copr repo no longer exists
+# xkbprint | copr | basic | Generates a PostScript image of an XKB keyboard description            | https://gitlab.freedesktop.org/xorg/app/xkbprint
+# zola     | copr | devel | Fast static site generator in a single binary with everything build-in | https://github.com/getzola/zola
+
+# TODO: 'does not verify: no digest'
+# google-earth-pro-stable | third | basic | Google Earth                                                                                                  | http://www.google.com/earth
+
+# TODO: Needed to install msttcore-fonts
+# xorg-x11-font-utils | system | x11 | X.Org X11 font utilities required for font installation, conversion and generation | http://www.x.org
+# wget https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+# sudo rpm -i msttcore-fonts-installer-2.6-1.noarch.rpm
+
+# TODO: Required for the gpg-tui cargo package
+# gpgme-devel        | system | gpg_tui | Development headers and libraries for gpgme    | https://gnupg.org/related_software/gpgme/
+# libgpg-error-devel | system | gpg_tui | Development files for the libgpg-error package | https://www.gnupg.org/related_software/libgpg-error/
+
+# TODO: Required for the gurk-rs cargo package
+# protobuf-compiler | system | gurk-rs | Protocol Buffers compiler | https://github.com/protocolbuffers/protobuf 
+
+# TODO: Can only install tealdeer or tldr
+# tealdeer | Fetch and show tldr help pages            | https://github.com/dbrgn/tealdeer
+# tldr     | Simplified and community-driven man pages | https://github.com/tldr-pages/tldr-python-client
+
+# TODO: Needed for so (cargo package)
+# openssl-devel | Files for development of applications which will use OpenSSL | http://www.openssl.org
+# libxcb-devel  | Development files for libxcb                                 | http://xcb.freedesktop.org/
+
+# TODO: needed for esr's repos
+# xmlto | system | esr | A tool for converting XML files to various formats | https://pagure.io/xmlto/
+
+# TODO: gstreamer 32-bit packages, libavformat-free.i686 for Wine games
+# TODO: dnf remove gstreamer1-plugin-libav.x86_64
+# TODO: dnf install gstreamer1-plugin-libav.i686
+# TODO: winetricks: https://github.com/Winetricks/winetricks
+
+# Things that need packaged as RPMs
+# =================================
+ag             | cargo  |  | Slice and dice logs on the command line                                                        | https://github.com/rcoh/angle-grinder
+broot          | cargo  |  | A new way to see and navigate directory trees                                                  | https://github.com/Canop/broot
+eva            | cargo  |  | A calculator REPL, similar to bc(1)                                                            | https://github.com/nerdypepper/eva
+genact         | cargo  |  | A nonsense activity generator                                                                  | https://github.com/svenstaro/genact
+gpg-tui        | cargo  |  | Manage your GnuPG keys with ease!                                                              | https://github.com/orhun/gpg-tui
+hackernews_tui | cargo  |  | A terminal UI to browse Hacker News                                                            | https://github.com/aome510/hackernews-TUI
+watchexec-cli  | cargo  |  | Executes commands in response to file modifications                                            | https://github.com/watchexec/watchexec
+docuum         | cargo  |  | Docuum performs least recently used (LRU) eviction of Docker images                            | https://github.com/stepchowfun/docuum
+hx             | cargo  |  | Futuristic take on hexdump, made in Rust                                                       | https://github.com/sitkevij/hex
+monolith       | cargo  |  | CLI tool for saving complete web pages as a single HTML file                                   | https://github.com/Y2Z/monolith
+nsh            | cargo  |  | A command-line shell like fish, but POSIX compatible                                           | https://github.com/nuta/nsh
+so             | cargo  |  | A terminal interface for Stack Overflow                                                        | https://github.com/samtay/so
+toast          | cargo  |  | Containerize your development and continuous integration environments                          | https://github.com/stepchowfun/toast
+ubi-cli        | cargo  |  | The Universal Binary Installer                                                                 | https://github.com/houseabsolute/ubi
+xsv            | cargo  |  | A fast CSV command line toolkit written in Rust                                                | https://github.com/BurntSushi/xsv
+cointop        | golang |  | A fast and lightweight interactive terminal based UI application for tracking cryptocurrencies | github.com/cointop-sh/cointop
+bluetuith      | golang |  | A TUI bluetooth manager for Linux                                                              | github.com/darkhz
+scc            | golang |  | SLOC, CLOC and Code: scc is a very fast accurate code counter                                  | github.com/boyter
+amfora         | golang |  | A fancy terminal browser for the Gemini protocol                                               | github.com/makeworld-the-better-one/amfora
+dive           | golang |  | A tool for exploring each layer in a docker image                                              | https://github.com/wagoodman/dive
+gotz           | golang |  | CLI timezone info                                                                              | https://github.com/merschformann/gotz
+noscl          | golang |  | Command line client for Nostr                                                                  | github.com/fiatjaf/noscl
+s              | golang |  | Open a web search in your terminal (Golang)                                                    | https://github.com/zquestz/s
+up             | golang |  | Ultimate Plubmer is a tool for writing LInux pipes with instant live preview                   | https://github.com/akavel/up
+wego           | golang |  | weather app for the terminal                                                                   | https://github.com/schachmat/wego
+
+# TODO: Cannot `go install` until https://github.com/achannarasappa/ticker/pull/260 is merged
+ticker | golang | | Terminal stock ticker with live updates and position tracking | github.com/achannarasappa
+
+# TODO: Install commands:
+# install -m 0755 lf /usr/local/bin
+# install -d -m 0755 /usr/local/share/lf
+# install -m 0644 -t /usr/local/share/lf etc/*
+lf | golang | | Terminal file manager  | https://github.com/gokcehan/lf
+
+# TODO: I think this was a dependency for something
+# gtkmm30-devel | system  | other | Development files for gtkmm30 | https://www.gtkmm.org/
+
+# TODO: This pulls in system rust which I need to remove
+# rust2rpm | system  | devel | Generate RPM spec files for Rust crates | https://codeberg.org/rust2rpm/rust2rpm
+
+# TODO: No package exists
+# alleyoop       | system | devel, debug | Graphical front-end to the Valgrind memory checker                | http://alleyoop.sourceforge.net/
+# make2graph     | system | devel        | Creates a graph of dependencies from GNU-Make                     | https://github.com/lindenb/makefile2graph
+# wavemon        | system | monitors     | Ncurses-based monitoring application for wireless network devices | https://github.com/uoaerg/wavemon
+# tint2          | system | x11_other    | Lightweight desktop panel and task manager                        | https://gitlab.com/o9000/tint2
+# magic-wormhole | system | util_other   | Securely transfer data between computers                          | https://github.com/warner/magic-wormhole
+# pydf           | system | util_other   | Fully colorized df/dfc clone written in python                    | https://pypi.python.org/pypi/pydf/12
+# asciio         | system | graphics     | Draw ascii art quickly and easilyt                                | https://metacpan.org/release/App-Asciio
+# sparkleshare   | system | other        | Share & collaborate by syncing with any Git repo instantly        | https://www.sparkleshare.org

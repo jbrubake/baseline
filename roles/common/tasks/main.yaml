@@ -1,0 +1,46 @@
+---
+
+- name: Set hostname to "{{common__hostname}}"
+  become: yes
+  hostname:
+    name: "{{common__hostname}}"
+
+- name: Set timezone to "{{common__timezone}}"
+  become: yes
+  timezone:
+    name: "{{common__timezone}}"
+
+- name: Set locale and keymap
+  include_tasks: tasks/set-locale.yaml
+  vars:
+    locale: "{{common__locale}}"
+    keymap: "{{common__keymap}}"
+
+- name: Install "dash" as "sh"
+  become: yes
+  when: common__install_dash is true
+  block:
+  - name: Install "dash"
+    package:
+      name: dash
+      state: latest
+
+  - name: Link "/bin/sh" to "/bin/dash"
+    file:
+      src: /bin/dash
+      dest: /bin/sh
+      state: link
+
+- name: Create users
+  include_tasks: tasks/create-user.yaml
+  vars:
+    users: "{{common__users}}"
+    password_length: "{{common__password_length}}"
+    password_dir: "{{common__password_dir}}"
+
+- name: Do not install weak dependencies
+  become: yes
+  lineinfile:
+    path: /etc/dnf/dnf.conf
+    line: install_weak_deps=False
+

@@ -1,0 +1,145 @@
+---
+
+- name: Configure system
+  hosts: localhost
+
+  tasks:
+    - name: Check if become succeeds
+      become: yes
+      command: "true"
+      changed_when: false
+
+    - include_role:
+        name: "{{item}}"
+      loop:
+        - common
+        - x11
+        - rclone
+        - mail
+        - cpan
+        - docker
+        - podman
+        - golang
+        - rust
+        - latex
+        - libvirt
+        - lisp
+        - google-cloud
+        - virtualbox
+
+    - name: Generate package lists
+      include_tasks: ../tasks/get_packages.yaml
+      vars:
+        type: "{{item.type}}"
+        save_to: "{{item.save_to}}"
+      loop:
+        - type: system
+          save_to: sys_pkg
+        - type: copr
+          save_to: copr_pkg
+        - type: third
+          save_to: third_pkg
+        - type: pipx
+          save_to: pipx_pkg
+        - type: pip_safe
+          save_to: pip_safe_pkg
+        - type: flatpak
+          save_to: flatpak_pkg
+        - type: binary
+          save_to: binary_pkg
+
+    - name: Enable copr repos
+      block:
+      - name: Install python3-dnf
+        become: yes
+        package:
+          name: python3-dnf
+          state: latest
+
+      - name: Enable copr repos
+        become: yes
+        community.general.copr:
+          name: "{{item.repo}}"
+          state: enabled
+        loop: "{{copr_repos|default([])}}"
+        when: item.name in copr_pkg
+
+    - name: Install third-party repositories
+      become: yes
+      yum_repository:
+        name: "{{item.name}}"
+        description: "{{item.description}}"
+        baseurl: "{{item.baseurl}}"
+        gpgcheck: yes
+        gpgkey: "{{item.gpgkey}}"
+      loop: "{{third_party_repos|default([])}}"
+      when: item.name in third_pkg
+
+    - name: Install system packages
+      become: yes
+      package:
+        name: "{{item}}"
+        state: latest
+      loop:
+        - "{{sys_pkg|default([])}}"
+        - "{{copr_pkg|default([])}}"
+        - "{{third_pkg|default([])}}"
+
+    - include_role:
+        name: flatpak
+      vars:
+        packages: "{{flatpak_pkg|default([])}}"
+
+    - include_role:
+        name: pip_safe
+      vars:
+        packages: "{{pip_safe_pkg|default([])}}"
+
+    - include_role:
+        name: pipx
+      vars:
+        packages: "{{pipx_pkg|default([])}}"
+
+    - name: Install ubi
+      become: yes
+      unarchive:
+        src: https://github.com/houseabsolute/ubi/releases/latest/download/ubi-Linux-musl-x86_64.tar.gz
+        remote_src: yes
+        dest: /usr/local/bin
+        exclude:
+          - README.md
+          - Changes.md
+        creates: /usr/local/bin/ubi
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Install binary packages
+      become: yes
+      ubi:
+        dest:         /usr/local/bin/{{item.name}}
+        project:      "{{item.project      | default(omit)}}"
+        forge:        "{{item.forge        | default(omit)}}"
+        tag:          "{{item.tag          | default(omit)}}"
+        min_age_days: "{{item.min_age_days | default(omit)}}"
+        url:          "{{item.url          | default(omit)}}"
+        exe:          "{{item.exe          | default(omit)}}"
+        matching:     "{{item.matching     | default(omit)}}"
+        regex:        "{{item.regex        | default(omit)}}"
+        mode: '0755'
+      loop: "{{ubi|default([])}}"
+      when: item.name in binary_pkg
+
+    - name: Configure cron
+      block:
+      - name: Get service_facts
+        service_facts:
+
+      - name: Enable crond service
+        become: yes
+        service:
+          name: crond
+          enabled: yes
+          state: started
+        when: ansible_facts['services']['crond.service']
+

@@ -1,0 +1,62 @@
+---
+
+- name: Install pip
+  become: yes
+  package:
+    name: python3-pip
+    state: latest
+
+- name: Remove system pipx
+  become: yes
+  package:
+    name: pipx
+    state: absent
+
+- name: Create pipx directory
+  become: yes
+  file:
+    path: "{{pipx__install_dir}}"
+    state: directory
+
+- name: Install pipx
+  become: yes
+  pip:
+    name: pipx
+    state: latest
+    virtualenv: "{{pipx__install_dir}}/pipx"
+    virtualenv_command: python -m venv
+
+- name: Update virtualenv pip
+  become: yes
+  pip:
+    name: pip
+    state: latest
+    virtualenv: "{{pipx__install_dir}}/pipx"
+    virtualenv_command: python -m venv
+
+- name: Create pipx wrapper to allow system-wide installs
+  become: yes
+  template:
+    src: templates/pipx.j2
+    dest: "{{bin_dir}}/pipx"
+    mode: 0755
+  vars:
+    install_dir: "{{pipx__install_dir}}"
+    bin_dir: "{{pipx__bin_dir}}"
+
+- name: Get pipx python version
+  command: "{{pipx__install_dir}}/pipx/bin/python3 --version"
+  register: _out
+  changed_when: false
+
+- name: Install packages
+  become: yes
+  community.general.pipx:
+    name: "{{item}}"
+    state: latest
+  environment:
+    PIPX_HOME: "{{pipx__install_dir}}"
+    PIPX_BIN_DIR: "{{pipx__bin_dir}}"
+    PYTHONPATH: "{{pipx__install_dir}}/pipx/lib/python{{(_out.stdout|split(' '))[1]|split('.')|slice(2)|first|join('.')}}/site-packages"
+  loop: "{{packages|default([])}}"
+

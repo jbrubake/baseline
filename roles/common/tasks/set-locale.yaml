@@ -1,0 +1,32 @@
+---
+# Based on https://serverfault.com/a/1117481
+
+- name: Install language pack "{{locale[:2]}}"
+  become: yes
+  package:
+    # locale[:2] is the 2-character language code
+    name: glibc-langpack-{{locale[:2]}}
+    state: present
+
+- name: Set locale language
+  become: yes
+  shell: |
+    if localectl status | grep -q 'System Locale: LANG={{locale}}'; then
+      echo 'no-change'
+    else
+      localectl set-locale LANG={{locale}}
+    fi
+  register: __status
+  changed_when: __status.stdout != 'no-change'
+
+- name: Set keymap
+  become: yes
+  shell: |
+    if localectl status | grep -q 'VC Keymap: {{keymap}}'; then
+      echo 'no-change'
+    else
+      localectl set-keymap {{keymap}}
+    fi
+  register: __status
+  changed_when: __status.stdout != 'no-change'
+

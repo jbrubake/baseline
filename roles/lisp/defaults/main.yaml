@@ -1,0 +1,4 @@
+---
+
+lisp__quicklisp_install_dir: "{{lisp.quicklisp_install_dir|default(lookup('ansible.builtin.env', 'XDG_DATA_HOME', default=ansible_user_dir+'/.local/share')}}"
+

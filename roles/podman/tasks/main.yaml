@@ -1,0 +1,17 @@
+---
+
+- name: Intall required packages
+  become: yes
+  package:
+    name: "{{_item}}"
+  loop: "{{podman__required_packages}}"
+  loop_control:
+    loop_var: _item
+  notify: Restart Podman
+
+- name: Enable podman service
+  become: yes
+  systemd_service:
+    name: podman
+    enabled: true
+

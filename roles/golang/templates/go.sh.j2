@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# {{ansible_managed}}
+#
+export GOROOT='{{go__prefix}}/go'
+
+# Prepending path in case a system-installed
+# go needs to be overridden
+PATH="{{go__prefix}}/go/bin:$PATH"
+

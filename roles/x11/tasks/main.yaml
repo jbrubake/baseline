@@ -1,0 +1,77 @@
+---
+
+# TODO: Convert to Wayland or at least use Wayland X11 wrapper
+# TODO: What is the minimum package list?
+- name: Install Xorg
+  become: yes
+  package:
+    name: "{{_item}}"
+    state: latest
+  loop:
+    - xorg-x11-server-Xorg
+    - xorg-x11-xinit
+    - xorg-x11-xauth
+    - "{{x11__terminal}}"
+  loop_control:
+    loop_var: _item
+
+- name: Install X11 drivers
+  become: yes
+  package:
+    name: "{{_item}}"
+    state: latest
+  loop: "{{x11__drivers}}"
+  loop_control:
+    loop_var: _item
+
+- name: Install basic utilities and libraries
+  become: yes
+  package:
+    name: "{{_item}}"
+    state: latest
+  loop: "{{x11__utils}}"
+  loop_control:
+    loop_var: _item
+
+- name: Install window manager
+  become: yes
+  package:
+    name: "{{x11__window_manager}}"
+    state: latest
+
+- name: Boot into X
+  when: x11__use_xdm
+  block:
+  - name: Install window manager
+    become: yes
+    package:
+      name: "{{_item}}"
+      state: latest
+    loop: "{{x11__xdm_packages}}"
+    loop_control:
+      loop_var: _item
+
+  - name: Get current systemd default
+    command: "systemctl get-default"
+    changed_when: false
+    register: systemdefault
+
+  - name: Set default to "graphical.target"
+    become: yes
+    command: systemctl set-default graphical.target
+    changed_when: "'graphical' not in systemdefault.stdout"
+
+# TODO: Is the Gnome keyring task only needed when using GDM?
+# TODO: The Gnome keyring task should be optional
+- name: Use Gnome Keyring only with gdm
+  become: yes
+  replace:
+    path: "{{_item}}"
+    regexp: pam_gnome_keyring.so *.*
+    replace: pam_gnome_keyring.so only_if=gdm
+  loop:
+    - /etc/pam.d/passwd
+    - /etc/pam.d/xdm
+  loop_control:
+    loop_var: _item
+

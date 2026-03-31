@@ -1,0 +1,9 @@
+---
+
+cpan__required_packages:
+  - perl-LWP-Protocol-https # Provide HTTPS support for LWP::UserAgent    | https://metacpan.org/release/LWP-Protocol-https
+  - perl-App-cpanminus      # Get, unpack, build and install CPAN modules | https://metacpan.org/release/App-cpanminus
+
+cpan__required_modules:
+  - 'App::cpanoutdated' # Detect outdated CPAN modules in your environment | https://metacpan.org/release/cpan-outdated
+

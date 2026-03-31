@@ -1,0 +1,89 @@
+---
+
+copr_repos: # {{{1
+  - name: dosbox-x
+    repo: rob72/DOSBox-X
+  - name: font-manager
+    repo: jerrycasiano/FontManager
+  - name: lazygit
+    repo: atim/lazygit
+  - name: xkbprint
+    repo: cykerway/xkbprint
+  # TODO: for xkbprint. I don't think this is the right package
+  #  - xorg-x11-xkb-extras
+  - name: zola
+    repo: fz0x1/zola
+
+third_party_repos: # {{{1
+  - name: google-earth-pro-stable
+    reponame: google-earth
+    description: Google Earth
+    baseurl: http://dl.google.com/linux/earth/rpm/stable/X86_64
+    gpgkey: https://dl.google.com/linux/linux_signing_key.pub
+
+  # TODO: need to set repo priority lower than Fedora repos so that .NET is
+  # installed from Fedora and **not** Microsoft
+  # dnf config-manager setopt microsoft.priority=100
+  - name: powershell
+    reponame: microsoft
+    description: Microsoft
+    baseurl: https://packages.microsoft.com/rhel/9/prod/
+    gpgkey: https://packages.microsoft.com/rhel/9/prod/repodata/repomd.xml.key
+
+  - name: wine-stable
+    reponame: wine
+    description: wine
+    baseurl: http://dl.winehq.org/wine-builds/fedora/$releasever
+    gpgkey: https://dl.winehq.org/wine-builds/winehq.key
+
+  - name: tofu
+    reponame: opentofu
+    description: OpenTofu
+    baseurl: https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/$basearch
+    gpgkey: 
+      - https://get.opentofu.org/opentofu.gpg
+      - https://packages.opentofu.org/tofu/opentofu.gpg
+
+  - name: terraform
+    reponame: terraform
+    description: Terraform
+    baseurl: https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable
+    gpgkey:
+      - https://rpm.releases.hashicorp.com/gpg
+
+tea_version_lookup: "{{lookup('ansible.builtin.url', 'https://gitea.com/api/v1/repos/gitea/tea/releases/latest')}}"
+tea_url: "{{tea_version_lookup.assets|selectattr('name', 'search', 'linux-amd64.xz$')|map(attribute='browser_download_url')|first}}"
+
+ubi: # {{{1
+  # TODO: This has an RPM now
+  - name: drawio
+    project: jgraph/drawio-desktop
+    regex: drawio-x86_64-.*.AppImage
+  - name: signal-cli
+    project: AsamK/signal-cli
+  - name: sioyek
+    project: ahrm/sioyek
+    exe: Sioyek-x86_64.AppImage
+    # TODO: How to increment version?
+  - name: tea
+    url: "{{tea_url}}"
+    # url: https://gitea.com/gitea/tea/releases/download/v0.12.0/tea-0.12.0-linux-amd64
+  - name: yq
+    project: mikefarah/yq
+  - name: rpg-cli
+    project: facundoolano/rpg-cli
+  # TODO: This shouldn't be hard to make into an RPM
+  - name: veracrypt
+    project: veracrypt/VeraCrypt
+    regex: VeraCrypt-.*-x86_64.AppImage
+  - name: browsh
+    project: browsh-org/browsh
+    tag: v1.8.2 # NOTE: v1.8.3 does not have a binary release
+  - name: wtf
+    project: wtfutil/wtf
+  - name: ILSpy
+    project: icsharpcode/AvaloniaILSpy # NOTE: Avalonia-based port of ILSpy
+    exe: ILSpy
+  - name: rclonebrowser
+    project: kapitainsky/rclonebrowser
+

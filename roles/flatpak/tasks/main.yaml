@@ -1,0 +1,24 @@
+---
+
+- name: Install flatpak
+  become: yes
+  package:
+    name: "{{item}}"
+    state: latest
+  loop: "{{flatpak__required_packages}}"
+
+- name: Add flathub remote
+  become: yes
+  flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: "{{item}}"
+  loop: "{{flatpak__remotes}}"
+
+- name: Install flatpaks
+  become: yes
+  flatpak:
+    name: "{{item}}"
+    state: latest
+  loop: "{{packages|default([])}}"
+

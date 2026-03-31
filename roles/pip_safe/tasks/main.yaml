@@ -1,0 +1,63 @@
+---
+
+- name: Install pip
+  become: yes
+  package:
+    name: python3-pip
+    state: latest
+
+- name: Create pip-safe directory
+  become: yes
+  file:
+    path: "{{pip_safe__install_dir}}"
+    state: directory
+
+- name: Install pip-safe
+  become: yes
+  pip:
+    name: pip-safe
+    state: latest
+    virtualenv: "{{pip_safe__install_dir}}/pip-safe"
+    virtualenv_command: python -m venv
+
+- name: Update virtualenv pip
+  become: yes
+  pip:
+    name: pip
+    state: latest
+    virtualenv: "{{pip_safe__install_dir}}/pip-safe"
+    virtualenv_command: python -m venv
+
+- name: Create link to pip-safe
+  become: yes
+  file:
+    path: /usr/local/bin/pip-safe
+    state: link
+    src: "{{pip_safe__install_dir}}/pip-safe/bin/pip-safe"
+
+- name: Get list of installed packages
+  command: pip-safe --system list
+  register: _installed
+  failed_when: false
+
+
+- name: Get list of outdated packages
+  command: "{{pip_safe__install_dir}}/{{item}}/bin/pip list --outdated"
+  loop: "{{packages}}"
+  register: _outdated
+  when: not _installed.stdout_lines|default([])|select('search', item)
+  changed_when: false
+  failed_when: false
+
+- name: Install packages
+  become: yes
+  command: "pip-safe --system install {{item}}"
+  loop: "{{packages}}"
+  when: not _installed.stdout_lines|default([])|select('search', item)
+
+- name: Update packages
+  become: yes
+  command: "pip-safe --system update {{item}}"
+  loop: "{{packages}}"
+  when: _outdated.stdout_lines|default([])|select('search', item)
+

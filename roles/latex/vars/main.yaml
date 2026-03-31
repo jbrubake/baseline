@@ -1,0 +1,14 @@
+---
+
+latex__basic:
+- texlive-scheme-basic   # basic scheme (plain and latex)                      | http://tug.org/texlive
+latex__medium:
+- texlive-scheme-medium  # medium scheme (small + more packages and languages) | http://tug.org/texlive
+latex__full:
+- texlive-scheme-full    # full scheme (everything)                            | http://tug.org/texlive
+
+latex__packages:
+  - "{{vars['latex__' ~ latex.scheme|default('basic')]}}"
+  - texlive-pdftex       # A TeX extension for direct creation of PDF          | http://tug.org/texlive
+  - texlive-chktex       # Check for errors in LaTeX documents                 | http://tug.org/texlive/
+

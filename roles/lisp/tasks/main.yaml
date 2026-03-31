@@ -1,0 +1,18 @@
+---
+
+- name: Install packages
+  become: yes
+  package:
+    name: "{{_item}}"
+    state: present
+  loop: "{{lisp__packages}}"
+  loop_control:
+    loop_var: _item
+
+  # TODO: Is it possible to install quicklisp system-wide?
+- name: Install quicklisp
+  tags:
+    - user
+    - never
+  command: sbcl --load files/quicklisp.lisp --eval '(quicklisp-quickstart:install :path "{{lisp__quicklisp_install_dir}}/quicklisp")'
+

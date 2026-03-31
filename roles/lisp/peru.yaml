@@ -1,0 +1,7 @@
+imports:
+  quicklisp: files/
+
+curl module quicklisp:
+  url: https://beta.quicklisp.org/quicklisp.lisp
+  sha1: 8cdf248d44c15cd96fab14c7689340ed1505bf00
+

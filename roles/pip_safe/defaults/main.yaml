@@ -1,0 +1,4 @@
+---
+
+pip_safe__install_dir: "{{pip_safe.install_dir | default('/opt/pip-safe')}}"
+

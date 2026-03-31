@@ -1,0 +1,122 @@
+---
+
+- name: Install packages
+  become: yes
+  package:
+    name: "{{_item}}"
+  loop: "{{libvirt__packages}}"
+  loop_control:
+    loop_var: _item
+  notify: Restart libvirtd
+
+- name: Enable libvirtd
+  become: yes
+  service:
+    name: libvirtd
+    state: started
+    enabled: true
+
+- name: Add users to libvirt group
+  become: yes
+  user:
+    name: "{{_item}}"
+    groups: libvirt
+    append: yes
+  loop: "{{libvirt__users}}"
+  loop_control:
+    loop_var: _item
+
+- name: Install python3-netaddr for IP manipulation
+  become: yes
+  package:
+    name: python3-netaddr
+    state: latest
+
+- name: Define VM networks
+  become: yes
+  community.libvirt.virt_net:
+    name: "{{_item.name}}"
+    command: define
+    xml: "{{lookup('template', 'network.xml.j2')}}"
+    state: active
+  vars:
+    net_name: "{{_item.name}}"
+    bridge:   "{{_item.bridge}}"
+    gw:       "{{_item.address|ansible.utils.ipaddr('address')}}"
+    mask:     "{{_item.address|ansible.utils.ipaddr('netmask')}}"
+    start:    "{{_item.pool_start}}"
+    end:      "{{_item.pool_end}}"
+  loop: "{{libvirt__networks}}"
+  loop_control:
+    loop_var: _item
+
+- name: Autostart VM network
+  become: yes
+  community.libvirt.virt_net:
+    autostart: true
+    name: "{{_item}}"
+  loop: "{{libvirt__networks|map(attribute='name')}}"
+  loop_control:
+    loop_var: _item
+
+- name: Create storage pools
+  tags:
+    - user
+    - never
+  block:
+
+  - name: Create storage pool directory
+    file:
+      path: "{{_item}}"
+      state: directory
+    loop: "{{libvirt__storage_pools|map(attribute='path')}}"
+    loop_control:
+      loop_var: _item
+
+  # TODO: Is the shell loop or ansible.posix.acl version better?
+  # - name: Allow 'qemu' user to access storage pool
+  #   shell: |
+  #     p={{_item}}
+  #     while [ "$p" != "$(dirname "{{ansible_user_dir}}")" ]; do
+  #         setfacl --modify user:qemu:x "$p"
+  #         p=$(dirname "$p")
+  #     done
+  #   loop: "{{libvirt__storage_pools|map(attribute='path')}}"
+  #   loop_control:
+  #     loop_var: _item
+
+  # # TODO: Host to loop through the parents?
+  # - name: Allow 'qemu' user to access storage pool
+  #   ansible.posix.acl:
+  #     entity: qemu
+  #   etype: user
+  #   path: "{{_item}}"
+  #   permissions: x
+  #   state: present
+  #   loop: "{{libvirt__storage_pools|map(attribute='path')}}"
+  #   loop_control:
+  #     loop_var: _item
+
+  - name: Define storage pool
+    community.libvirt.virt_pool:
+      command: define
+      name: "{{_item.name}}"
+      xml: '{{lookup("template", "templates/pool.xml.j2")}}'
+      state: active
+      uri: qemu:///session
+    vars:
+      name: "{{_item.name}}"
+      path: "{{_item.path}}"
+    loop: "{{libvirt__storage_pools}}"
+    loop_control:
+      loop_var: _item
+
+  - name: Autostart storage pool
+    community.libvirt.virt_pool:
+      autostart: true
+      name: "{{_item}}"
+      uri: qemu:///session
+    loop: "{{libvirt__storage_pools|map(attribute='name')}}"
+    loop_control:
+      loop_var: _item
+

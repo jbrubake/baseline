@@ -1,0 +1,9 @@
+---
+
+- name: Install rclone RPM
+  become: yes
+  dnf:
+    name: "{{rclone__url}}"
+    state: present
+    disable_gpg_check: true
+

@@ -1,0 +1,6 @@
+---
+
+flatpak__remotes: "{{flatpak.remotes | default([
+  'https://flathub.org/repo/flathub.flatpakrepo',
+])}}"
+

@@ -1,0 +1,5 @@
+---
+
+pipx__install_dir: "{{pipx.install_dir | default('/opt/pipx')}}"
+pipx__bin_dir:     "{{pipx.bin_dir | default('/usr/local/bin')}}"
+

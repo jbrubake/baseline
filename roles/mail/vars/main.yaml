@@ -1,0 +1,17 @@
+---
+
+# TODO: split installed packages into required and optional
+mail__packages:
+  - compface      # Library and tools for handling X-Face data                                 | http://ftp.xemacs.org/pub/xemacs/aux/
+  - imapfilter    # A flexible client side mail filtering utility for IMAP servers             | https://github.com/lefcha/imapfilter/
+  - isync         # Tool to synchronize IMAP4 and Maildir mailboxes                            | http://isync.sourceforge.net/
+  - khal          # CLI calendar application                                                   | https://github.com/pimutils/khal
+  - lbdb          # Address Database for mutt                                                  | http://www.spinnaker.de/lbdb/
+  - mutt          # A text mode mail user agent                                                | http://www.mutt.org
+  - msmtp         # SMTP client                                                                | https://marlam.de/msmtp/
+  - notmuch       # System for indexing, searching, and tagging email                          | https://notmuchmail.org/
+  - notmuch-mutt  # Notmuch (of a) helper for Mutt                                             | https://notmuchmail.org/
+  - t-prot        # A filter which improves the readability of email messages and Usenet posts | http://www.escape.de/~tolot/mutt/
+  - urlscan       # Extract and browse the URLs contained in an email (urlview replacement)    | https://github.com/firecat53/urlscan
+  - vdirsyncer    # Synchronize calendars and contacts                                         | https://github.com/pimutils/vdirsyncer
+

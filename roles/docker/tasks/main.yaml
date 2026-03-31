@@ -1,0 +1,56 @@
+---
+
+- name: Uninstall system Docker packages
+  become: yes
+  package:
+    name: "{{_item}}"
+    state: absent
+  loop: "{{docker__packages_to_remove}}"
+  loop_control:
+    loop_var: _item
+
+- name: Install Docker repository
+  become: yes
+  yum_repository:
+    name: docker
+    description: Docker CE stable
+    baseurl: "{{docker__repo_url}}"
+    gpgcheck: yes
+    gpgkey: "{{docker__repo_gpgkey_url}}"
+
+- name: Install Docker
+  become: yes
+  package:
+    name: "{{_item}}"
+    state: latest
+  loop: "{{docker__required_packages}}"
+  loop_control:
+    loop_var: _item
+  notify: Restart Docker
+
+- name: Configure the default logging driver
+  become: yes
+  copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+        "log-driver": "local"
+      }
+  notify: Restart Docker
+
+- name: Enable docker service
+  become: yes
+  systemd_service:
+    name: docker
+    enabled: true
+
+- name: Add users to docker group
+  become: yes
+  user:
+    name: "{{_item}}"
+    groups: docker
+    append: yes
+  loop: "{{docker__users}}"
+  loop_control:
+    loop_var: _item
+

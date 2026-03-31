@@ -1,0 +1,20 @@
+---
+
+- name: Create user
+  become: yes
+  user:
+    name: "{{_item.name}}"
+    comment: "{{_item.comment | default('')}}"
+    groups: "{{_item.groups | default('')}}"
+    # Save passwords in {{password_dir}}/{{username}}
+    password: "{{ lookup('ansible.builtin.password',
+      password_dir + '/' + _item.name,
+      encrypt='sha512_crypt',
+      chars=['ascii_letters', 'digits'],
+      length=password_length,) }}"
+    update_password: on_create
+    append: yes
+  loop: "{{users}}"
+  loop_control:
+    loop_var: _item
+

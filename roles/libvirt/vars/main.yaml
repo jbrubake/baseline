@@ -1,0 +1,12 @@
+---
+
+libvirt__packages:
+  - guestfs-tools                 # Tools to access and modify virtual machine disk images  | http://libguestfs.org/
+  - libvirt-daemon-config-network # Default configuration files for the libvirtd daemon     | https://libvirt.org/
+  - libvirt-daemon-kvm            # Server side daemon & driver required to run KVM guests  | https://libvirt.org
+  - qemu-kvm                      # QEMU metapackage for KVM support                        | http://www.qemu.org/
+  - virt-install                  # Utilities for installing virtual machines               | https://virt-manager.org/
+  - virt-viewer                   # Virtual Machine Viewer                                  | https://gitlab.com/virt-viewer/virt-viewer
+  - virt-top                      # Utility like top(1) for displaying virtualization stats | http://people.redhat.com/~rjones/virt-top/
+  - virt-manager                  # Desktop tool for managing virtual machines via libvirt  | https://virt-manager.org
+

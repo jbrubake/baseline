@@ -1,0 +1,6 @@
+---
+
+_go__version_url:  https://go.dev/VERSION?m=text
+_go__version_str:  "{{ lookup('url', _go__version_url, split_lines=True).split(',') | first }}"
+_go__download_url: https://dl.google.com/go/{{_go__version_str}}.linux-amd64.tar.gz
+

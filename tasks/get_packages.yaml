@@ -1,0 +1,37 @@
+---
+
+# Call db2list and return a list of packages
+#
+# Usage:
+#
+# - include_tasks: /path/to/get_packages.yaml
+#   vars:
+#     type: TYPE
+#     save_to: VAR_TO_SAVE_TO
+#     append: bool # Clear 'save_to' if append=false
+#     db2list: /path/to/db2list
+#     package_tags:
+#       - list
+#       - of
+#       - tags
+#     package_file: PACKAGE_LIST_FILE
+#
+- name: Generate list of packages to install
+  command:
+    argv:
+      - "{{db2list | default('../files/db2list')}}"
+      - "{{type}}"
+      - "{{package_tags | join(' ')}}"
+      - "{{package_file | default('../files/packages.db')}}"
+  changed_when: false
+  register: _list
+
+# The append | ternary piece is to prepend an existing list
+#   if append=true. Otherwise, we prepend []
+- name: Save package list
+  set_fact: {"{{save_to}}":"{{
+    append|default(false) |
+      ternary(lookup('ansible.builtin.vars', save_to, default=[]), []) +
+      _list.stdout_lines}}"}
+  when: save_to is defined
+

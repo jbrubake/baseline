@@ -1,0 +1,5 @@
+---
+
+flatpak__required_packages:
+  - flatpak # Application deployment framework for desktop apps | https://flatpak.org
+

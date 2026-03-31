@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# {{ansible_managed}}
+#
+export RUSTUP_HOME="{{rust__rustup_home}}"
+
+# Prepending path in case a system-installed
+# rustc needs to be overridden
+export PATH="{{rust__rustup_home}}/bin:$PATH"
+

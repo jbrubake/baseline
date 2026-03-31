@@ -1,0 +1,5 @@
+---
+
+rclone__version: "{{lookup('url', 'https://downloads.rclone.org/version.txt')|replace('rclone ', '')}}"
+rclone__url:     https://downloads.rclone.org/{{rclone__version}}/rclone-{{rclone__version}}-linux-amd64.rpm
+

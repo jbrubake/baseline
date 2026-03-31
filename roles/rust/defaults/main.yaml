@@ -1,0 +1,3 @@
+---
+
+rust__rustup_home: "{{rust.rustup_home | default('/opt/rust')}}"

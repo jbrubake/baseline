@@ -1,0 +1,92 @@
+#!/bin/sh
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+# Copyright 2023 Jeremy Brubaker <jbru362@gmail.com>
+#
+# abstract: Framework to configure a local workstation
+#
+ansible_user=ansible
+ansible_home=/home/ansible
+ansible_shell=/bin/bash
+
+baseline_dir=/opt/baseline
+
+case $1 in
+    -h|--help)
+        printf '%s: configure local machine for baselining. Must be run as root.\n' "$0" >&2
+        exit
+        ;;
+esac
+
+if [ "$(id -u)" -ne 0 ]; then
+    printf 'You must run this script as root\n' >&2
+    exit 1
+fi
+
+printf 'Installing ansible...\n'
+dnf install -y ansible
+
+ansible-playbook -i localhost, -c local /dev/stdin <<END || exit 1
+- hosts: all
+  tasks:
+
+  # The old hashing algorithm is deprecated
+  - name: Install Python passlib
+    dnf:
+      name: python3-passlib
+      state: latest    
+      install_weak_deps: false
+
+  - name: Create ansible user
+    user:
+      name: $ansible_user
+      shell: $ansible_shell
+      home: $ansible_home
+
+  - name: Give ansible user passwordless sudo access
+    copy:
+      dest: /etc/sudoers.d/$ansible_user
+      content: |
+        $ansible_user ALL=(ALL) NOPASSWD:ALL
+      
+  - name: Create system configuration directory
+    file:
+      path: $baseline_dir
+      state: directory 
+
+  - name: Download baseline configuration
+    unarchive:
+      src: https://github.com/jbrubake/baseline/archive/refs/heads/master.tar.gz
+      dest: $baseline_dir
+      extra_opts:
+        - --strip-components=1
+      remote_src: yes
+
+  - name: Install ansible requirements
+    become: yes
+    command: ansible-galaxy {{item}} install -r $baseline_dir/requirements.yaml
+    loop:
+      - role
+      - collection
+END
+
+cat <<END
+----------------------
+Bootstrapping complete. Run the following:
+
+    cd $baseline_dir
+    sudo -u $ansible_user ansible-playbook playbooks/main.yaml
+END
+

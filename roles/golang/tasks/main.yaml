@@ -1,0 +1,21 @@
+---
+
+- name: Create go install directory
+  become: yes
+  file:
+    path: "{{go__prefix}}"
+    state: directory
+
+- name: Install go
+  become: yes
+  unarchive:
+    src: "{{_go__download_url}}"
+    dest: "{{go__prefix}}"
+    remote_src: yes
+    
+- name: Add 'go' to $PATH
+  become: yes
+  template:
+    src: templates/go.sh.j2
+    dest: /etc/profile.d/go.sh
+
