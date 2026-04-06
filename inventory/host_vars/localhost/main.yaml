@@ -12,6 +12,11 @@ common:
 
 package_tags:
   - basic
+  - extra
+  - audio
+  - x-basic
+  - devel
+  - rpmdev
 
 x11:
   terminal: alacritty # Fast, cross-platform, OpenGL terminal emulator | https://crates.io/crates/alacritty
