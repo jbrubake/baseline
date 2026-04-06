@@ -1,0 +1,29 @@
+---
+
+x11__drivers:
+  # I don't know what's actually needed so I installed them all
+  - xorg-x11-drv-*
+  - mesa-dri-drivers
+
+x11__utils:
+  - xbindkeys              # Binds keys or mouse buttons to shell commands under X   | http://www.nongnu.org/xbindkeys/
+  - xdg-user-dirs          # Handles user special directories                        | https://freedesktop.org/wiki/Software/xdg-user-dirs
+  - xev                    # X Event utility                                         | https://www.x.org
+  - xfontsel               # Tool to list X11 core protocol fonts                    | https://www.x.org
+  - xinput                 # Utility to query X Input devices                        | https://www.x.org
+  - xkill                  # Utility to force-close an X client's connection         | https://www.x.org
+  - xmessage               # Display a message in a window                           | https://www.x.org
+  - xorg-x11-fonts-misc    # misc bitmap fonts for the X Window System               | https://www.x.org
+  - xset                   # User preference utility for X                           | https://www.x.org
+  - xwininfo               # xwininfo prints information about an X11 window         | https://www.x.org
+
+x11__xdm_packages:
+  - xorg-x11-xdm           # X Display Manager                                       | https://www.x.org
+  - xorg-x11-xinit-session # Display manager support for ~/.xsession and ~/.Xclients | https://www.x.org
+
+x11__mscorefonts_packages:
+  - cabextract             # Utility for extracting cabinet (.cab) archives          | https://www.cabextract.org.uk/
+  - xorg-x11-font-utils    # X.Org X11 font utilities                                | https://www.x.org
+
+x11__mscorefonts_url: https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+

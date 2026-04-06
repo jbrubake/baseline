@@ -2,23 +2,5 @@
 
 x11__terminal:       "{{x11.terminal       | default('xterm')}}"
 x11__window_manager: "{{x11.window_manager | default('cwm')}}"
-x11__drivers:
-  # I don't know what's actually needed so I installed them all
-  - xorg-x11-drv-*
-  - mesa-dri-drivers
-x11__utils:
-  - xbindkeys           # Binds keys or mouse buttons to shell commands under X | http://www.nongnu.org/xbindkeys/
-  - xev                 # X Event utility                                       | https://www.x.org
-  - xfontsel            # Tool to list X11 core protocol fonts                  | https://www.x.org
-  - xinput              # Utility to query X Input devices                      | https://www.x.org
-  - xkill               # Utility to force-close an X client's connection       | https://www.x.org
-  - xmessage            # Display a message in a window                         | https://www.x.org
-  - xorg-x11-fonts-misc # misc bitmap fonts for the X Window System             | https://www.x.org
-  - xset                # User preference utility for X                         | https://www.x.org
-  - xwininfo            # xwininfo prints information about an X11 window
-
 x11__use_xdm:        "{{x11.use_xdm        | default('no')}}"
-x11__xdm_packages:
-  - xorg-x11-xdm           # X Display Manager                                       | http://www.x.org
-  - xorg-x11-xinit-session # Display manager support for ~/.xsession and ~/.Xclients | https://www.x.org
 
