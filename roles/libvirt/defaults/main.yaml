@@ -13,5 +13,5 @@ libvirt__storage_pools: "{{libvirt.storage_pools | default(
   [{
     'pool_name': 'default',
     'path': lookup('ansible.builtin.env', 'XDG_STATE_HOME', default=ansible_user_dir+'/.local/state') + '/libvirt/images'
-  ])}}"
+  }])}}"
 
