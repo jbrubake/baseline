@@ -7,3 +7,11 @@
     state: present
     disable_gpg_check: true
 
+- name: Generate shell completion
+  become: yes
+  command: rclone completion {{item}}
+  loop:
+    - bash
+    - zsh
+    - powershell
+
