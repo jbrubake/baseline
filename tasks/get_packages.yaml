@@ -25,6 +25,7 @@
       - "{{package_file | default('../files/packages.db')}}"
   changed_when: false
   register: _list
+  delegate_to: localhost
 
 # The append | ternary piece is to prepend an existing list
 #   if append=true. Otherwise, we prepend []
