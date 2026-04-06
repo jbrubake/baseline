@@ -1,0 +1,15 @@
+---
+
+- name: Create rclone config directory
+  file:
+    path: "{{rclone__config_dir}}"
+    state: directory
+
+- name: Create rclone.conf
+  template:
+    src: rclone.conf.j2
+    dest: "{{rclone__config_dir}}/rclone.conf"
+    mode: 0600
+  vars:
+    configs: "{{rclone__configs}}"
+

@@ -1,0 +1,15 @@
+---
+
+- name: Create rclone filter directory
+  file:
+    path: "{{rclone__config_dir}}/filters"
+    state: directory
+
+- name: Create rclone filters
+  copy:
+    dest: "{{rclone__config_dir}}/filters/{{_item.name}}"
+    content: "{{_item.content}}"
+  loop: "{{rclone.filters|default([])}}"
+  loop_control:
+    loop_var: _item
+

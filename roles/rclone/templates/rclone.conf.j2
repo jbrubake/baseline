@@ -1,0 +1,9 @@
+{% for config in configs %}
+[{{config.name}}]
+type = {{config.type}}
+token = {{config.token}}
+{% for k, v in config.properties.items() %}
+{{k}} = {{v}}
+{% endfor %}
+
+{% endfor %}
