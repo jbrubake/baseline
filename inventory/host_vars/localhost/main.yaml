@@ -14,7 +14,7 @@ package_tags:
   - basic
 
 x11:
-  terminal: alacritty
-  window_manager: cwm
+  terminal: alacritty # Fast, cross-platform, OpenGL terminal emulator | https://crates.io/crates/alacritty
+  window_manager: cwm # Calm Window Manager by OpenBSD project         | https://github.com/chneukirchen/cwm
   use_xdm: yes
 

@@ -16,7 +16,7 @@
     locale: "{{common__locale}}"
     keymap: "{{common__keymap}}"
 
-- name: Install "dash" as "sh"
+- name: Install "dash" as "sh" # Small and fast POSIX-compliant shell | http://gondor.apana.org.au/~herbert/dash/
   become: yes
   when: common__install_dash is true
   block:
