@@ -7,12 +7,6 @@ copr_repos: # {{{1
     repo: jerrycasiano/FontManager
   - name: lazygit
     repo: atim/lazygit
-  - name: xkbprint
-    repo: cykerway/xkbprint
-  # TODO: for xkbprint. I don't think this is the right package
-  #  - xorg-x11-xkb-extras
-  - name: zola
-    repo: fz0x1/zola
 
 third_party_repos: # {{{1
   - name: google-earth-pro-stable
@@ -64,10 +58,8 @@ ubi: # {{{1
   - name: sioyek
     project: ahrm/sioyek
     exe: Sioyek-x86_64.AppImage
-    # TODO: How to increment version?
   - name: tea
     url: "{{tea_url}}"
-    # url: https://gitea.com/gitea/tea/releases/download/v0.12.0/tea-0.12.0-linux-amd64
   - name: yq
     project: mikefarah/yq
   - name: rpg-cli
