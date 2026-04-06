@@ -3,7 +3,7 @@
 libvirt__users:    "{{libvirt.users             | default([])}}"
 libvirt__networks: "{{libvirt.networks | default(
   [{
-    'name':       'default',
+    'net_name':   'default',
     'bridge':     'virbr0',
     'address':    '192.168.122.1/24',
     'pool_start': '192.168.122.2',
@@ -11,7 +11,7 @@ libvirt__networks: "{{libvirt.networks | default(
   }])}}"
 libvirt__storage_pools: "{{libvirt.storage_pools | default(
   [{
-    'name': 'default',
+    'pool_name': 'default',
     'path': lookup('ansible.builtin.env', 'XDG_STATE_HOME', default=ansible_user_dir+'/.local/state') + '/libvirt/images'
   ])}}"
 

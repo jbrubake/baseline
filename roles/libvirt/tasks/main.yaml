@@ -35,12 +35,12 @@
 - name: Define VM networks
   become: yes
   community.libvirt.virt_net:
-    name: "{{_item.name}}"
+    name: "{{_item.net_name}}"
     command: define
     xml: "{{lookup('template', 'network.xml.j2')}}"
     state: active
   vars:
-    net_name: "{{_item.name}}"
+    net_name: "{{_item.net_name}}"
     bridge:   "{{_item.bridge}}"
     gw:       "{{_item.address|ansible.utils.ipaddr('address')}}"
     mask:     "{{_item.address|ansible.utils.ipaddr('netmask')}}"
@@ -55,7 +55,7 @@
   community.libvirt.virt_net:
     autostart: true
     name: "{{_item}}"
-  loop: "{{libvirt__networks|map(attribute='name')}}"
+  loop: "{{libvirt__networks|map(attribute='net_name')}}"
   loop_control:
     loop_var: _item
 
