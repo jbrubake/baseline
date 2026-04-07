@@ -5,10 +5,10 @@
 
   # NOTE: Set these so the proper directories are used
   environment:
-    XDG_DATA_HOME:   "{{ansible_env.HOME}}/{{xdg.data_dirs.data}}"
-    XDG_CONFIG_HOME: "{{ansible_env.HOME}}/{{xdg.data_dirs.config}}"
-    XDG_STATE_HOME:  "{{ansible_env.HOME}}/{{xdg.data_dirs.state}}"
-    XDG_CACHE_HOME:  "{{ansible_env.HOME}}/{{xdg.data_dirs.cache}}"
+    XDG_DATA_HOME:   "{{[ansible_env.HOME, xdg.data_dirs.data] | path_join}}"
+    XDG_CONFIG_HOME: "{{[ansible_env.HOME, xdg.data_dirs.config] | path_join}}"
+    XDG_STATE_HOME:  "{{[ansible_env.HOME, xdg.data_dirs.state] | path_join}}"
+    XDG_CACHE_HOME:  "{{[ansible_env.HOME, xdg.data_dirs.cache] | path_join}}"
 
   tasks:
     - name: Pull in XDG variables
@@ -16,17 +16,17 @@
 
     - name: Create XDG data directory shell file
       template:
-        dest: "{{ansible_env.HOME}}/.env.xdg"
+        dest: "{{[ansible_env.HOME, '.env.xdg'] | path_join}}"
         src: xdg.env.j2
       vars:
-        data_home:   $HOME/{{xdg.data_dirs.data}}
-        config_home: $HOME/{{xdg.data_dirs.config}}
-        state_home:  $HOME/{{xdg.data_dirs.state}}
-        cache_home:  $HOME/{{xdg.data_dirs.cache}}
+        data_home:   "{{['$HOME', xdg.data_dirs.data] | path_join}}"
+        config_home: "{{['$HOME', xdg.data_dirs.config] | path_join}}"
+        state_home:  "{{['$HOME', xdg.data_dirs.state] | path_join}}"
+        cache_home:  "{{['$HOME', xdg.data_dirs.cache] | path_join}}"
 
     - name: Create directories
       file:
-        path: "{{ansible_env.HOME}}/{{item}}"
+        path: "{{[ansible_env.HOME, item] | path_join}}"
         state: directory
       loop: "{{directories_to_create}}"
 
@@ -37,7 +37,7 @@
     # TODO: How to use ansible commands without deleting non-empty directories?
     # TODO: When is this changed?
     - name: Delete standard XDG data directories if different
-      command: rmdir "{{ansible_env.HOME + '/' + item.1}}"
+      command: rmdir "{{[ansible_env.HOME, item.1] | path_join}}"
       # 'dummy' is so ~/.local is always removed if empty
       # xdg.data_dirs is expanded explicitly so the order is always correct
       loop: "{{
@@ -53,7 +53,7 @@
 
     - name: Create new XDG data directories
       file:
-        path: "{{ansible_env.HOME + '/' + item.value}}"
+        path: "{{[ansible_env.HOME, item.value] | path_join}}"
         state: directory
       loop: "{{xdg.data_dirs|dict2items}}"
 
@@ -64,6 +64,7 @@
       set_fact:
         xdg_keys: "{{xdg.user_dirs|dict2items|map(attribute='key')|upper}}"
 
+    # TODO: Figure out how to use path_join
     - name: Set "desired_xdg"
       set_fact:
         desired_xdg: "{{[ansible_env.HOME + '/']|product(xdg.user_dirs|dict2items|map(attribute='value'))|map('join')}}"
@@ -126,12 +127,12 @@
 
     - name: Create sync directory
       file:
-        path: "{{rclone.sync_dir}}/dropbox"
+        path: "{{[rclone.sync_dir, 'dropbox'] | path_join}}"
         state: directory
 
     - name: Check that sync directory is empty
       find:
-        path: "{{rclone.sync_dir}}/dropbox"
+        path: "{{[rclone.sync_dir, 'dropbox'] | path_join}}"
         file_type: any
         hidden: true
       register: _find
@@ -144,18 +145,18 @@
           - --filter
           - + RCLONE_TEST
           - --filter-from
-          - "{{ansible_env.XDG_CONFIG_HOME}}/rclone/filters/dropbox-default"
+          - "{{[ansible_env.HOME, xdg.data_dirs.config, 'rclone/filters/dropbox-default'] | path_join}}"
           - --filter-from
-          - "{{ansible_env.XDG_CONFIG_HOME}}/rclone/filters/dropbox"
+          - "{{[ansible_env.HOME, xdg.data_dirs.config, 'rclone/filters/dropbox'] | path_join}}"
           - "dropbox:"
-          - "{{rclone.sync_dir}}/dropbox"
+          - "{{[rclone.sync_dir, 'dropbox'] | path_join}}"
       when: _find.matched|int == 0
 
     ## Create links to cloud files {{{1
     #
     - name: Get link destinations
       find:
-        paths: "{{ansible_env.HOME}}/.sync/{{item.src}}"
+        paths: "{{[rclone.sync_dir, item.src] | path_join}}"
         file_type: "{{item.type | default('file')}}"
         recurse: "{{(item.type | default('file') == 'directory') | ternary('false', 'true')}}"
       register: __files
@@ -163,7 +164,7 @@
 
     - name: Create directory tree for links
       file:
-        path: "{{ansible_env.HOME ~ '/' ~ item}}"
+        path: "{{[ansible_env.HOME, item] | path_join}}"
         state: directory
       # __files is a list of absolute paths to files and directories in
       # rclone.sync_dir/<directory> so that portion needs stripped to create
@@ -181,8 +182,8 @@
         # 'item' is the default as __files has only a single path element that
         # just needs massaged to create src: and path:. We strip the first
         # element of those paths to make a relative path we can append to $HOME
-        src: "{{rclone.sync_dir ~ '/' ~ item.src | default(item)}}"
-        path: "{{ansible_env.HOME ~ '/' ~ item.path | default(item | regex_replace('^[^/]*/', ''))}}"
+        src: "{{[rclone.sync_dir, item.src | default(item)] | path_join}}"
+        path: "{{[ansible_env.HOME, item.path | default(item | regex_replace('^[^/]*/', ''))] | path_join}}"
         state: link
         force: "{{item.force | default('no')}}"
         follow: "{{not item.force | default('yes')}}"
@@ -200,7 +201,7 @@
     #
     - name: Create .ssh directories
       file:
-        path: "{{ansible_env.HOME}}/.ssh/{{item}}"
+        path: "{{[ansible_env.HOME, '.ssh', item] | path_join}}"
         state: directory
         mode: 0700
       loop:
@@ -212,13 +213,13 @@
     - name: Generate SSH key for github acces
       openssh_keypair:
         passphrase: "{{github.sshkey_passphrase}}"
-        path: "{{ansible_env.HOME}}/.ssh/{{github.sshkey_name}}"
+        path: "{{[ansible_env.HOME, '.ssh', github.sshkey_name] | path_join}}"
         type: ed25519
 
     - name: Add SSH key to Github
       github_key:
         name: "{{ansible_user_id}}@{{ansible_hostname}}"
-        pubkey: "{{lookup('file', ansible_env.HOME+ '/.ssh/' + github.sshkey_name + '.pub')}}"
+        pubkey: "{{lookup('file', [ansible_env.HOME, '.ssh', github.sshkey_name~'.pub'] | path_join)}}"
         token: "{{github.pat}}"
 
     - name: Add github.com's SSH hostkey
@@ -230,16 +231,16 @@
     #
     - name: Create source directory
       file:
-        path: "{{personal_pkgs_default_dest}}"
+        path: "{{[ansible_env.HOME, personal_pkgs_default_dest] | path_join}}"
         state: directory
 
     - name: Clone repositories
       git:
         repo: "{{item.repo}}"
-        dest: "{{ansible_env.HOME ~ '/' ~ tem.dest|default(personal_pkgs_default_dest) + '/' + item.name}}"
+        dest: "{{[ansible_env.HOME, item.dest|default(personal_pkgs_default_dest), item.name] | path_join}}"
         update: "{{item.update | default('no') | bool}}"
         force: "{{item.force | default('no') | bool}}"
-        key_file: "{{ansible_env.HOME}}/.ssh/{{item.sshkey|default(github.sshkey_name)}}"
+        key_file: "{{[ansible_env.HOME, '.ssh', item.sshkey|default(github.sshkey_name)] | path_join}}"
       register: __git
       loop: "{{personal_pkgs}}"
 
@@ -250,7 +251,7 @@
     - name: Install packages
       shell: "{{item.commands}}"
       args:
-        chdir: "{{item.dest|default(personal_pkgs_default_dest) + '/' + item.name}}"
+        chdir: "{{[item.dest|default(personal_pkgs_default_dest), item.name] | path_join}}"
       loop: "{{personal_pkgs}}"
       when:
         - item.name in _git_changed
@@ -261,7 +262,7 @@
     #
     - name: Create vim directories
       file:
-        path: "{{ansible_env.HOME}}/{{vim.config_dir|.vim}}/{{item}}"
+        path: "{{[ansible_env.HOME, vim.config_dir|default('.vim'), item] | path_join}}"
         state: directory
       loop: "{{vim.dirs}}"
 
@@ -276,7 +277,7 @@
       - name: Install minpac
         git:
           repo: https://github.com/k-takata/minpac.git
-          dest: "{{ansible_env.HOME}}/{{vim.config_dir|.vim}}/{{vim.minpac_dir}}/opt/minpac"
+          dest: "{{[ansible_env.HOME, vim.config_dir|default('.vim'), vim.minpac_dir, 'opt/minpac'] | path_join}}"
 
       # TODO: How to tell when this is changed?
       - name: Install vim plugins
@@ -306,7 +307,7 @@
       block:
 
       - name: Get list of mopidy plugins
-        command: "awk '/#[[:blank:]]*install:/ {print $4}' {{ansible_env.XDG_CONFIG_HOME}}/mopidy/mopidy.conf"
+        command: "awk '/#[[:blank:]]*install:/ {print $4}' {{[ansible_env.HOME, xdg.data_dirs.config, 'mopidy/mopidy.conf'] | path_join}}"
         changed_when: false
         register: _plugins
 
@@ -323,7 +324,7 @@
     #
     - name: Find fortune cookies
       find:
-        path: "{{rclone.sync_dir}}/dropbox/share/games/fortunes"
+        path: "{{[rclone.sync_dir, 'dropbox/share/games/fortunes'] | path_join}}"
       register: __files
 
     - name: Create fortune cookie data files
@@ -347,13 +348,13 @@
       - name: Download and extract browserpass archive
         unarchive:
           src: "{{browserpass_url}}"
-          dest: "{{ansible_env.HOME ~ '/' ~ personal_pkgs_default_dest}}"
+          dest: "{{[ansible_env.HOME, personal_pkgs_default_dest] | path_join}}"
           remote_src: true
 
       - name: Install browserpass application
         command: "{{item}}"
         args:
-          chdir: "{{ansible_env.HOME ~ '/' ~ personal_pkgs_default_dest ~ '/' ~ browserpass_url | basename | replace('.tar.gz', '')}}"
+          chdir: "{{[ansible_env.HOME, personal_pkgs_default_dest, browserpass_url | basename | replace('.tar.gz', '')] | path_join}}"
         environment:
           PREFIX: "{{ansible_env.HOME}}"
           BIN: browserpass-linux64
@@ -363,5 +364,4 @@
           - make hosts-firefox-user
 
       when: _has_firefox.rc == 0
-
     # }}}
