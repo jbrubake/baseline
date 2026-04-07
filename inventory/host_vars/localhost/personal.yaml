@@ -190,28 +190,30 @@ directories_to_create:
   - .news # USENET posts
   - bin
   - lib
-  - share
+
+  - "{{[xdg.data_dirs.data, 'licenses/printimage'] | path_join}}"
+  - "{{[xdg.data_dirs.data, 'licenses/printvideo'] | path_join}}"
 
   # TODO: Should these be created by a mail role?
-  - "{{ansible_env.XDG_CACHE_HOME}}/mutt/tmp"
-  - "{{ansible_env.XDG_CACHE_HOME}}/mutt/headers"
+  - "{{[xdg.data_dirs.cache, 'mutt/tmp'] | path_join}}"
+  - "{{[xdg.data_dirs.cache, 'mutt/headers'] | path_join}}"
 
-  - "{{ansible_env.XDG_CACHE_HOME}}/mopidy"
+  - "{{[xdg.data_dirs.cache, 'mopidy'] | path_join}}"
 
   # TODO: Should these be created by a podman role?
-  - "{{ansible_env.XDG_STATE_HOME}}/containers/storage/volumes"
-  - "{{ansible_env.XDG_STATE_HOME}}/containers/storage/libpod"
+  - "{{[xdg.data_dirs.state, 'containers/storage/volumes'] | path_join}}"
+  - "{{[xdg.data_dirs.state, 'containers/storage/libpod'] | path_join}}"
 
-  - "{{ansible_env.XDG_STATE_HOME}}/locate" # locate(1) database
-  - "{{ansible_env.XDG_STATE_HOME}}/logrotate" # logrotate(8) state file
+  - "{{[xdg.data_dirs.state, 'locate'] | path_join}}" # locate(1) database
+  - "{{[xdg.data_dirs.state, 'logrotate'] | path_join}}" # logrotate(8) state file
 
   # NOTE: The default XDG_STATE_HOME and XDG_CACHE_HOME have a common root of
   # ~/.local which makes sense as a default location for these
   # TODO: Configure dotfiles to use that default
-  - "{{ansible_env.XDG_STATE_HOME}}/../log"
-  - "{{ansible_env.XDG_STATE_HOME}}/../run"
-  - "{{ansible_env.XDG_STATE_HOME}}/../spool"
-  - "{{ansible_env.XDG_STATE_HOME}}/../spool/anacron" # anacron(8) spool
+  - "{{[xdg.data_dirs.state, '../log'] | path_join}}"
+  - "{{[xdg.data_dirs.state, '../run'] | path_join}}"
+  - "{{[xdg.data_dirs.state, '../spool'] | path_join}}"
+  - "{{[xdg.data_dirs.state, '../spool/anacron'] | path_join}}" # anacron(8) spool
 
 # Links to create into a directory tree {{{2
 #
