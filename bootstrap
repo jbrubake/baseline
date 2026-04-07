@@ -24,6 +24,9 @@ ansible_shell=/bin/bash
 baseline_dir=/opt/baseline
 baseline_url=https://github.com/jbrubake/baseline/archive/refs/heads/master.tar.gz
 
+private_vars_file=private.yaml
+group_all=inventory/group_vars/all
+
 case $1 in
     -h|--help)
         printf '%s: configure local machine for baselining. Must be run as root.\n' "$0" >&2
@@ -82,6 +85,16 @@ ansible-playbook -i localhost, -c local /dev/stdin <<END || exit 1
       - role
       - collection
 END
+
+printf 'Copying private variables file (%s) to baseline directory...\n' \
+    "$private_vars_file"
+if [ -r "$private_vars_file" ]; then
+    mkdir -p "$baseline_dir/$group_all"
+    cp "$private_vars_file" "$baseline_dir/$group_all"
+else
+    printf 'Private variables file (%s) not found in current directory!' \
+        "$private_vars_file" >&2
+fi
 
 cat <<END
 ----------------------
