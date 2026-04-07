@@ -71,9 +71,9 @@
 
     - name: Create new XDG user directories
       file:
-        path: "{{item.1}}"
+        path: "{{item}}"
         state: directory
-      loop: "{{xdg_keys|zip(desired_xdg)}}"
+      loop: "{{desired_xdg}}"
 
     - name: Check for xdg-user-dir
       command: xdg-user-dir
@@ -96,11 +96,11 @@
 
       # TODO: How to use ansible commands without deleting non-empty directories?
       - name: Remove old, empty XDG directories
-        command: rmdir "{{item.1}}"
-        loop: "{{xdg_keys|zip(current_xdg)}}"
+        command: rmdir "{{item}}"
+        loop: "{{current_xdg}}"
         when:
-          - item.1 != ansible_env.HOME # Undefined directories default to $HOME
-          - not item.1 in desired_xdg  # Keep the ones I want
+          - item != ansible_env.HOME # Undefined directories default to $HOME
+          - not item in desired_xdg  # Keep the ones I want
         failed_when: false # Do not fail if directory is not empty
 
       - name: Update XDG user directories
