@@ -1,0 +1,20 @@
+imports:
+  printvideo_com: playbooks/files
+  printimage_com: playbooks/files
+  jart_license: playbooks/files
+
+curl module printvideo_com:
+  url: https://justine.lol/printvideo.com
+  # license: ISC [LICENSE.jart]
+  executable: printvideo.com # abstract: Play videos in the terminal
+
+curl module printimage_com:
+  url: https://justine.lol/printimage.com
+  # license: ISC [LICENSE.jart]
+  executable: printimage.com # abstract: View images in the terminal
+
+curl module jart_license:
+  url: https://raw.githubusercontent.com/jart/cosmopolitan/refs/heads/master/LICENSE
+  move:
+    LICENSE: LICENSE.jart
+
