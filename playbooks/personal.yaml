@@ -24,12 +24,6 @@
         state_home:  "{{['$HOME', xdg.data_dirs.state] | path_join}}"
         cache_home:  "{{['$HOME', xdg.data_dirs.cache] | path_join}}"
 
-    - name: Create directories
-      file:
-        path: "{{[ansible_env.HOME, item] | path_join}}"
-        state: directory
-      loop: "{{directories_to_create}}"
-
     ## Configure XDG directories {{{1
     #
     # Configure XDG data directories {{{2
@@ -156,8 +150,14 @@
           - "{{[rclone.sync_dir, 'dropbox'] | path_join}}"
       when: _find.matched|int == 0
 
-    ## Create links to cloud files {{{1
+    ## Create directories and create links {{{1
     #
+    - name: Create directories
+      file:
+        path: "{{[ansible_env.HOME, item] | path_join}}"
+        state: directory
+      loop: "{{directories_to_create}}"
+
     - name: Get link destinations
       find:
         paths: "{{[rclone.sync_dir, item.src] | path_join}}"
