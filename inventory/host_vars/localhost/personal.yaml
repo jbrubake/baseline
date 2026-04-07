@@ -324,6 +324,26 @@ links_to_create:
   - src: dropbox/etc/tuir/tuir.cfg
     path: .config/tuir/tuir.cfg            
 
+# Files to copy {{{1
+#
+# List of files to copy
+#
+# src: file on controller
+# dest: destination relative to $HOME
+#
+#
+files_to_copy:
+  - src: printimage.com
+    dest: bin/printimage
+    mode: '0755'
+  - src: printvideo.com
+    dest: bin/printvideo
+    mode: '0755'
+  - src: LICENSE.jart
+    dest: "{{xdg.data_dirs.data}}/licenses/printimage/LICENSE"
+  - src: LICENSE.jart
+    dest: "{{xdg.data_dirs.data}}/licenses/printvideo/LICENSE"
+
 ## SAVE THESE UNTIL I KNOW I DON'T NEED THEM {{{1
     # - name: Get cloud link destinations
     #   find:
