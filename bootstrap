@@ -22,6 +22,7 @@ ansible_home=/home/ansible
 ansible_shell=/bin/bash
 
 baseline_dir=/opt/baseline
+baseline_url=https://github.com/jbrubake/baseline/archive/refs/heads/master.tar.gz
 
 case $1 in
     -h|--help)
@@ -68,7 +69,7 @@ ansible-playbook -i localhost, -c local /dev/stdin <<END || exit 1
 
   - name: Download baseline configuration
     unarchive:
-      src: https://github.com/jbrubake/baseline/archive/refs/heads/master.tar.gz
+      src: $baseline_url
       dest: $baseline_dir
       extra_opts:
         - --strip-components=1
