@@ -1,0 +1,367 @@
+---
+
+- name: Configure my workspace
+  hosts: localhost
+
+  # NOTE: Set these so the proper directories are used
+  environment:
+    XDG_DATA_HOME:   "{{ansible_env.HOME}}/{{xdg.data_dirs.data}}"
+    XDG_CONFIG_HOME: "{{ansible_env.HOME}}/{{xdg.data_dirs.config}}"
+    XDG_STATE_HOME:  "{{ansible_env.HOME}}/{{xdg.data_dirs.state}}"
+    XDG_CACHE_HOME:  "{{ansible_env.HOME}}/{{xdg.data_dirs.cache}}"
+
+  tasks:
+    - name: Pull in XDG variables
+      gather_facts:
+
+    - name: Create XDG data directory shell file
+      template:
+        dest: "{{ansible_env.HOME}}/.env.xdg"
+        src: xdg.env.j2
+      vars:
+        data_home:   $HOME/{{xdg.data_dirs.data}}
+        config_home: $HOME/{{xdg.data_dirs.config}}
+        state_home:  $HOME/{{xdg.data_dirs.state}}
+        cache_home:  $HOME/{{xdg.data_dirs.cache}}
+
+    - name: Create directories
+      file:
+        path: "{{ansible_env.HOME}}/{{item}}"
+        state: directory
+      loop: "{{directories_to_create}}"
+
+    ## Configure XDG directories {{{1
+    #
+    # Configure XDG data directories {{{2
+    #
+    # TODO: How to use ansible commands without deleting non-empty directories?
+    # TODO: When is this changed?
+    - name: Delete standard XDG data directories if different
+      command: rmdir "{{ansible_env.HOME + '/' + item.1}}"
+      # 'dummy' is so ~/.local is always removed if empty
+      # xdg.data_dirs is expanded explicitly so the order is always correct
+      loop: "{{
+        [xdg.data_dirs.config,
+         xdg.data_dirs.cache,
+         xdg.data_dirs.data,
+         xdg.data_dirs.state,
+         'dummy'] |
+        zip(['.config', '.cache', '.local/share', '.local/state', '.local'])
+      }}"
+      when: item.0 != item.1
+      failed_when: false # Do not fail if directory is not empty
+
+    - name: Create new XDG data directories
+      file:
+        path: "{{ansible_env.HOME + '/' + item.value}}"
+        state: directory
+      loop: "{{xdg.data_dirs|dict2items}}"
+
+    # Configure XDG user directories {{{2
+    #
+
+    - name: Set "xdg_keys"
+      set_fact:
+        xdg_keys: "{{xdg.user_dirs|dict2items|map(attribute='key')|upper}}"
+
+    - name: Set "desired_xdg"
+      set_fact:
+        desired_xdg: "{{[ansible_env.HOME + '/']|product(xdg.user_dirs|dict2items|map(attribute='value'))|map('join')}}"
+
+    - name: Create new XDG user directories
+      file:
+        path: "{{item.1}}"
+        state: directory
+      loop: "{{xdg_keys|zip(desired_xdg)}}"
+
+    - name: Check for xdg-user-dir
+      command: xdg-user-dir
+      register: _do_xdg
+      changed_when: false
+      failed_when: false
+
+    - name: Clean and set XDG user directories
+      block:
+
+      - name: Get list of current directories
+        command: xdg-user-dir {{item}}
+        loop: "{{xdg_keys}}"
+        register: _user_dirs
+        changed_when: false
+
+      - name: Set "current_xdg"
+        set_fact:
+          current_xdg: "{{_user_dirs.results|map(attribute='stdout_lines')|flatten}}"
+
+      # TODO: How to use ansible commands without deleting non-empty directories?
+      - name: Remove old, empty XDG directories
+        command: rmdir "{{item.1}}"
+        loop: "{{xdg_keys|zip(current_xdg)}}"
+        when:
+          - item.1 != ansible_env.HOME # Undefined directories default to $HOME
+          - not item.1 in desired_xdg  # Keep the ones I want
+        failed_when: false # Do not fail if directory is not empty
+
+      - name: Update XDG user directories
+        command: xdg-user-dirs-update --set "{{item.0}}" "{{item.1}}"
+        loop: "{{xdg_keys|zip(desired_xdg)}}"
+        when: not item.1 in current_xdg
+
+      when: _do_xdg.rc == 0
+
+    ## Cloud storage {{{1
+    #
+    - name: Configure cloud storage
+      include_role:
+        name: rclone
+        tasks_from: "{{item}}"
+      loop:
+        - install-config.yaml
+        - create-filters.yaml
+
+    - name: Create sync directory
+      file:
+        path: "{{rclone.sync_dir}}"
+        state: directory
+
+    - name: Create sync directory
+      file:
+        path: "{{rclone.sync_dir}}/dropbox"
+        state: directory
+
+    - name: Check that sync directory is empty
+      find:
+        path: "{{rclone.sync_dir}}/dropbox"
+        file_type: any
+        hidden: true
+      register: _find
+
+    - name: Sync dropbox if empty
+      command:
+        argv:
+          - rclone
+          - sync
+          - --filter
+          - + RCLONE_TEST
+          - --filter-from
+          - "{{ansible_env.XDG_CONFIG_HOME}}/rclone/filters/dropbox-default"
+          - --filter-from
+          - "{{ansible_env.XDG_CONFIG_HOME}}/rclone/filters/dropbox"
+          - "dropbox:"
+          - "{{rclone.sync_dir}}/dropbox"
+      when: _find.matched|int == 0
+
+    ## Create links to cloud files {{{1
+    #
+    - name: Get link destinations
+      find:
+        paths: "{{ansible_env.HOME}}/.sync/{{item.src}}"
+        file_type: "{{item.type | default('file')}}"
+        recurse: "{{(item.type | default('file') == 'directory') | ternary('false', 'true')}}"
+      register: __files
+      loop: "{{tree_links}}"
+
+    - name: Create directory tree for links
+      file:
+        path: "{{ansible_env.HOME ~ '/' ~ item}}"
+        state: directory
+      # __files is a list of absolute paths to files and directories in
+      # rclone.sync_dir/<directory> so that portion needs stripped to create
+      # relative paths that can be appended to $HOME
+      loop: "{{(
+        links_to_create | map(attribute='path') +
+        __files.results | map(attribute='files') | flatten | map(attribute='path') |
+          map('regex_replace', rclone.sync_dir ~ '/[^/]*/', '')
+        ) | map('dirname') | unique
+      }}"
+      when: item != '' # Don't bother recreating $HOME
+
+    - name: Create links
+      file:
+        # 'item' is the default as __files has only a single path element that
+        # just needs massaged to create src: and path:. We strip the first
+        # element of those paths to make a relative path we can append to $HOME
+        src: "{{rclone.sync_dir ~ '/' ~ item.src | default(item)}}"
+        path: "{{ansible_env.HOME ~ '/' ~ item.path | default(item | regex_replace('^[^/]*/', ''))}}"
+        state: link
+        force: "{{item.force | default('no')}}"
+        follow: "{{not item.force | default('yes')}}"
+      # __files is a list of absolute paths to files and directories in
+      # rclone.sync_dir/<directory>. We can only strip rclone.sync_dir now
+      # because <directory> is needed by src:
+      loop: "{{(
+        links_to_create +
+        __files.results | map(attribute='files') | flatten | map(attribute='path') |
+          map('regex_replace', rclone.sync_dir ~ '/', '')
+        ) | unique
+      }}"
+
+    ## Configure SSH {{{1
+    #
+    - name: Create .ssh directories
+      file:
+        path: "{{ansible_env.HOME}}/.ssh/{{item}}"
+        state: directory
+        mode: 0700
+      loop:
+        - config.d
+        - keys
+        - sockets # Needed for my ControlMaster configuration
+
+    # TODO: What other SSH keys do I need? How to get them on servers?
+    - name: Generate SSH key for github acces
+      openssh_keypair:
+        passphrase: "{{github.sshkey_passphrase}}"
+        path: "{{ansible_env.HOME}}/.ssh/{{github.sshkey_name}}"
+        type: ed25519
+
+    - name: Add SSH key to Github
+      github_key:
+        name: "{{ansible_user_id}}@{{ansible_hostname}}"
+        pubkey: "{{lookup('file', ansible_env.HOME+ '/.ssh/' + github.sshkey_name + '.pub')}}"
+        token: "{{github.pat}}"
+
+    - name: Add github.com's SSH hostkey
+      known_hosts:
+        name: github.com
+        key: "{{github.hostkey}}"
+
+    ## Install local source packages {{{1
+    #
+    - name: Create source directory
+      file:
+        path: "{{personal_pkgs_default_dest}}"
+        state: directory
+
+    - name: Clone repositories
+      git:
+        repo: "{{item.repo}}"
+        dest: "{{ansible_env.HOME ~ '/' ~ tem.dest|default(personal_pkgs_default_dest) + '/' + item.name}}"
+        update: "{{item.update | default('no') | bool}}"
+        force: "{{item.force | default('no') | bool}}"
+        key_file: "{{ansible_env.HOME}}/.ssh/{{item.sshkey|default(github.sshkey_name)}}"
+      register: __git
+      loop: "{{personal_pkgs}}"
+
+    - name: Get list of changed repositories
+      set_fact:
+        _git_changed: "{{__git.results | selectattr('changed', 'equalto', true) | map(attribute='item') | map(attribute='name')}}"
+
+    - name: Install packages
+      shell: "{{item.commands}}"
+      args:
+        chdir: "{{item.dest|default(personal_pkgs_default_dest) + '/' + item.name}}"
+      loop: "{{personal_pkgs}}"
+      when:
+        - item.name in _git_changed
+        - item.commands is defined
+        - item.commands != ''
+
+    ## Configure Vim {{{1
+    #
+    - name: Create vim directories
+      file:
+        path: "{{ansible_env.HOME}}/{{vim.config_dir|.vim}}/{{item}}"
+        state: directory
+      loop: "{{vim.dirs}}"
+
+    - name: Check that vim is installed and not a minimal vi clone
+      command: vim --version
+      failed_when: false
+      changed_when: false
+      register: _has_vim
+
+    - name: Configure vim plugins
+      block:
+      - name: Install minpac
+        git:
+          repo: https://github.com/k-takata/minpac.git
+          dest: "{{ansible_env.HOME}}/{{vim.config_dir|.vim}}/{{vim.minpac_dir}}/opt/minpac"
+
+      # TODO: How to tell when this is changed?
+      - name: Install vim plugins
+        command: vim +PackUpdateAndQuit
+
+      when: _has_vim.rc == 0
+
+    ## libvirt {{{1
+    #
+    - name: Configure libvirt
+      include_role:
+        name: libvirt
+        tasks_from: create-storage-pools
+
+    # TODO: Add a task to copy images from a local repository
+
+    ## Other {{{1
+    #
+    # Install mopidy plugins {{{
+    - name: Check for mopidy
+      command: mopidy --version
+      changed_when: false
+      failed_when: false
+      register: _has_mopidy
+
+    - name: Install mopidy plugins
+      block:
+
+      - name: Get list of mopidy plugins
+        command: "awk '/#[[:blank:]]*install:/ {print $4}' {{ansible_env.XDG_CONFIG_HOME}}/mopidy/mopidy.conf"
+        changed_when: false
+        register: _plugins
+
+      # TODO: This always shows changed, likely because of how the pip module works
+      - name: Install plugins
+        pip:
+          name: "{{item}}"
+          state: present
+        loop: "{{_plugins.stdout_lines|default([])}}"
+
+      when: _has_mopidy.rc == 0
+    # }}}
+    # Create fortune cookies {{{
+    #
+    - name: Find fortune cookies
+      find:
+        path: "{{rclone.sync_dir}}/dropbox/share/games/fortunes"
+      register: __files
+
+    - name: Create fortune cookie data files
+      command: strfile "{{item}}"
+      loop: "{{__files.files|map(attribute='path')}}"
+      changed_when: not item ~ '.dat' in __files.files|map(attribute='path')
+      when:
+        - not (item | regex_search('README.*'))
+        - not (item | regex_search('.*\\.dat'))
+    # }}}
+    # Configure browserpass {{{
+    - name: Check for Firefox
+      command: firefox --version
+      changed_when: false
+      failed_when: false
+      register: _has_firefox
+
+    - name: Configure browserpass application
+      block:
+
+      - name: Download and extract browserpass archive
+        unarchive:
+          src: "{{browserpass_url}}"
+          dest: "{{ansible_env.HOME ~ '/' ~ personal_pkgs_default_dest}}"
+          remote_src: true
+
+      - name: Install browserpass application
+        command: "{{item}}"
+        args:
+          chdir: "{{ansible_env.HOME ~ '/' ~ personal_pkgs_default_dest ~ '/' ~ browserpass_url | basename | replace('.tar.gz', '')}}"
+        environment:
+          PREFIX: "{{ansible_env.HOME}}"
+          BIN: browserpass-linux64
+        loop:
+          - make configure
+          - make install
+          - make hosts-firefox-user
+
+      when: _has_firefox.rc == 0
+
+    # }}}

@@ -1,0 +1,426 @@
+---
+
+# TODO: template things that exist in ansible and dotfiles
+# by using 'templatefile' prior to running 'make install'
+# in the dotfiles repo. This could be extended to other
+# things as well. Probably a good solution for the private
+# data that isn't easy to pull out of the repo
+
+browserpass_version_lookup: "{{lookup('ansible.builtin.url', 'https://api.github.com/repos/browserpass/browserpass-native/releases/latest')}}"
+browserpass_url: "{{browserpass_version_lookup.assets|selectattr('name', 'search', 'linux64-.*\\.tar\\.gz$')|map(attribute='browser_download_url')|first}}"
+
+# Configure GitHub access {{{1
+#
+# sshkey_passphrase: Passphrase for generated GitHub SSH key
+# sshkey_name: Name of generated GitHub SSH key
+# hostkey: GitHub SSH host key
+# pat: GitHub Personal Access Token with privileges to add SSH keys
+#
+github:
+  sshkey_passphrase: "{{private.gh_passphrase}}"
+  sshkey_name: github
+  # Current as of 19-Jan-24
+  hostkey: github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+  pat: "{{private.gh_pat}}"
+
+# Git repositories {{{1
+#
+# Clone git repositories into $HOME and, optionally, run commands
+#
+# Examples:
+#
+# Clone foo into the default destination of $HOME/personal_pkgs_default_dest
+# name: foo
+# repo: <repo URL>
+#
+# Clone bar into $HOME/opt and run commands after cloning
+# name: bar
+# repo: <repo URL>
+# dest: opt
+# commands: |
+#   make
+#   make install
+#
+personal_pkgs_default_dest: src
+
+personal_pkgs:
+  - name: dotfiles
+    repo: git@github.com:jbrubake/dotfiles.git
+    commands: |
+      make install
+  - name: fzf-scripts
+    repo: git@github.com:jbrubake/fzf-scripts.git
+    commands: |
+      make PREFIX={{ansible_env.HOME}} install
+  - name: scripts
+    repo: git@github.com:jbrubake/scripts.git
+    commands: |
+      make install
+  - name: wiki
+    repo: git@github.com:jbrubake/wiki.git
+    dest: "{{ansible_env.HOME}}"
+  - name: .password-store
+    repo: git@github.com:jbrubake/password-store.git
+    dest: "{{ansible_env.HOME}}"
+
+# Configure XDG directories {{{1
+#
+# xdg.user_dirs: user directories configured with xdg-user-dir
+# xdg.data_dirs: data directories
+#
+# key: shortened XDG directory name (e.g., desktop => XDG_DESKTOP_DIR, data =>
+#   XDG_DATA_HOME)
+# value: path relative to $HOME
+#
+xdg:
+  user_dirs:
+    desktop: desktop
+    download: downloads
+    templates: templates
+    publicshare: public
+    documents: docs
+    music: music
+    pictures: pictures
+    videos: videos
+  data_dirs:
+    data: share
+    config: .config
+    # TODO: This cannot be changed until dotfiles are changed
+    # config: etc
+    state: var/lib
+    cache: var/cache
+
+# Configure vim {{{1
+#
+# config_dir: path (relative to $HOME) of vim configuration directory (defaults
+#   to .vim)
+# minpac_dir: path to minpac installation directory relative to vim.config_dir
+#   (must start with 'pack')
+# dirs: list of directories to create under vim.config_dir
+vim:
+  minpac_dir: &vim_minpac_dir pack/minpac
+  dirs:
+    - backup
+    - tmp
+    - colors
+    - *vim_minpac_dir
+
+# Configure rclone {{{1
+#
+# sync_dir: Root path for all local rclone storage
+# configs: List of remotes to configure
+#   name: remote name
+#   type: rclone remote type
+#   token: API token
+#   properties: Dictionary of properties that is copied verbatim to the entry
+# filters: List of filters to create
+#   name: name of created file
+#   content: filter file contents
+#
+rclone:
+  sync_dir: "{{ansible_env.HOME + '/.sync'}}"
+  configs:
+    # TODO: Box never seems to authenticate
+    # - name: box
+      # type: box
+      # token: "{{private.rclone.box|string}}"
+      # properties:
+        # box_sub_type: user
+    - name: dropbox
+      type: dropbox
+      token: "{{private.rclone.dropbox|string}}"
+    - name: google
+      type: drive
+      token: "{{private.rclone.google|string}}"
+      properties:
+# TODO: authentication failure when using the id's more than once
+#        client_id: "{{private.rclone.google_client_id}}"
+#        client_secret: "{{private.rclone.google_client_secret}}"
+        scope: drive
+        team_drive:
+    - name: onedrive
+      type: onedrive
+      token: "{{private.rclone.onedrive|string}}"
+      properties:
+        region: global
+        drive_type: personal
+        drive_id: "{{private.rclone.onedrive_drive_id}}"
+  filters:
+    - name: box
+      content: |
+        + Magazines & Books/**
+        - **
+    - name: google
+      content: |
+        + Documents/**
+        - **
+    - name: dropbox
+      content: |
+        + **
+    - name: dropbox-default
+      content: |
+        # Dropbox won't sync some files, so filtered here.
+        # See https://www.dropbox.com/en/help/syncing-uploads/files-not-syncing
+        - .dropbox.attr
+        - ~*.tmp
+        - ~$*
+        - .~*
+        - desktop.ini
+        - .dropbox
+    - name: onedrive
+      content: |
+        + /Documents/Office Lens/**
+        + /Documents/General/**
+        + /Boardgames/Civil War Brigade Series/**
+        + /Kriegsspiel/**
+        + /Maps/**
+        - **
+
+# Configure libvirt {{{1
+#
+# storage_pool_path: absolute path to the storage pool
+libvirt: 
+  storage_pool_path: '{{ansible_env.XDG_STATE_HOME}}/libvirt/images'
+
+# Directories and Links {{{1
+#
+# List of directories to create relative to $HOME {{{2
+#
+directories_to_create:
+  - .news # USENET posts
+  - bin
+  - lib
+  - share
+
+  # TODO: Should these be created by a mail role?
+  - "{{ansible_env.XDG_CACHE_HOME}}/mutt/tmp"
+  - "{{ansible_env.XDG_CACHE_HOME}}/mutt/headers"
+
+  - "{{ansible_env.XDG_CACHE_HOME}}/mopidy"
+
+  # TODO: Should these be created by a podman role?
+  - "{{ansible_env.XDG_STATE_HOME}}/containers/storage/volumes"
+  - "{{ansible_env.XDG_STATE_HOME}}/containers/storage/libpod"
+
+  - "{{ansible_env.XDG_STATE_HOME}}/locate" # locate(1) database
+  - "{{ansible_env.XDG_STATE_HOME}}/logrotate" # logrotate(8) state file
+
+  # NOTE: The default XDG_STATE_HOME and XDG_CACHE_HOME have a common root of
+  # ~/.local which makes sense as a default location for these
+  # TODO: Configure dotfiles to use that default
+  - "{{ansible_env.XDG_STATE_HOME}}/../log"
+  - "{{ansible_env.XDG_STATE_HOME}}/../run"
+  - "{{ansible_env.XDG_STATE_HOME}}/../spool"
+  - "{{ansible_env.XDG_STATE_HOME}}/../spool/anacron" # anacron(8) spool
+
+# Links to create into a directory tree {{{2
+#
+# Create links in $HOME/<src> (after leading path element is stripped) that
+# point to files or directories under rclone.sync_dir/<src>
+#
+# If type == 'file' (the default), link every file, recursively.
+# If type == 'directory', link child directories without recursion.
+#
+# Examples:
+#
+# Create links in $HOME/foo to every file under cloud/foo
+# - src: cloud/foo
+#   type: file
+#
+# Create links in $HOME/bar to each directory directly under cloud/bar
+# - src: cloud/bar
+#   type: directory
+#
+tree_links:
+  - src: dropbox/etc
+  - src: dropbox/.mutt
+  - src: dropbox/.news
+  - src: dropbox/opt
+  - src: dropbox/.slrn
+  - src: dropbox/.ssh
+  - src: dropbox/.todo
+  - src: dropbox/.vdirsyncer
+  - src: dropbox/share/dict
+  - src: dropbox/share/misc
+  - src: dropbox/src
+    type: directory
+  - src: dropbox/docs
+    type: directory
+  - src: dropbox/share/games
+    type: directory
+  - src: dropbox/share/music
+    type: directory
+
+# Links to create {{{2
+#
+# Create a link from $HOME/<path> to rclone.sync_dir/<src>
+#
+links_to_create:
+  - src: dropbox/share/avatars
+    path: share/avatars
+  - src: dropbox/share/backgrounds
+    path: share/backgrounds
+  - src: dropbox/share/bitmaps
+    path: share/bitmaps
+  - src: dropbox/share/fonts
+    path: share/fonts
+  - src: dropbox/share/icons
+    path: share/icons
+  - src: dropbox/share/license-keys
+    path: share/license-keys
+  - src: dropbox/share/nerd-font
+    path: share/nerd-font
+  - src: dropbox/share/readable-licenses
+    path: share/readable-licenses
+  - src: dropbox/etc/ssh/allowed_signers
+    path: .ssh/allowed_signers
+  - src: dropbox/etc/pki/irc
+    path: .irssi/certs
+  - src: dropbox/etc/goobook/goobook_auth.json
+    path: .goobook_auth.json
+  - src: dropbox/etc/goobook/goobook_client_secret.json
+    path: .goobook_client_secret.json
+  - src: dropbox/etc/geekcode
+    path: .geekcode
+  - src: dropbox/share/backgrounds/wallpaper/mountains.jpg
+    path: .wallpaper0
+  - src: dropbox/share/sidebery
+    path: "{{xdg.user_dirs.download}}/sidebery"
+  - src: google/Documents
+    path: docs/google
+    force: yes
+  - src: onedrive/Documents/Office Lens
+    path: docs/lens
+    force: yes
+  - src: onedrive/Documents/General
+    path: docs/onedrive
+    force: yes
+  - src: onedrive/Boardgames
+    path: games/boardgames
+    force: yes
+  - src: onerive/Kriegsspiel
+    path: games/kriegsspiel
+    force: yes
+  - src: onedrive/Maps
+    path: games/maps
+    force: yes
+  # TODO: Remove these once XDG_CONFIG_HOME == ~/etc
+  - src: dropbox/etc/cointop/config.toml
+    path: .config/cointop/config.toml      
+  - src: dropbox/etc/doctl/config.yaml
+    path: .config/doctl/config.yaml        
+  - src: dropbox/etc/gh/hosts.yml
+    path: .config/gh/hosts.yml            
+  - src: dropbox/etc/mopidy/mopidy.conf
+    path: .config/mopidy/mopidy.conf       
+  - src: dropbox/etc/mopidy/ytmusic_auth.json
+    path: .config/mopidy/ytmusic_auth.json 
+  - src: dropbox/etc/rclone/cloudsync.conf
+    path: .config/rclone/cloudsync.conf    
+  - src: dropbox/etc/shodan/api_key
+    path: .config/shodan/api_key           
+  - src: dropbox/etc/tea/config.yml
+    path: .config/tea/config.yml           
+  - src: dropbox/etc/tuir/tuir.cfg
+    path: .config/tuir/tuir.cfg            
+
+## SAVE THESE UNTIL I KNOW I DON'T NEED THEM {{{1
+    # - name: Get cloud link destinations
+    #   find:
+    #     paths: "{{ansible_env.HOME}}/.sync/{{item.0}}"
+    #     file_type: "{{item.1}}"
+    #     recurse: "{{(item.1 == 'directory') | ternary('false', 'true')}}"
+    #   register: __files
+    #   loop: "{{dropbox_links}}"
+
+    # - name: Create directory tree
+    #   file:
+    #     path: "{{ansible_env.HOME ~ '/' ~ item}}"
+    #     state: directory
+    #   loop: "{{(
+    #     (other_dropbox_links + other_cloud_links) | selectattr('path', 'defined') | map(attribute='path') +
+    #     (other_dropbox_links + other_cloud_links) | selectattr('path', 'undefined') | map(attribute='src') +
+    #     __files.results | map(attribute='files') | flatten | map(attribute='path') |
+    #       map('regex_replace', rclone.sync_dir ~ '/dropbox/', '') +
+    #     []) | map('dirname') | unique
+    #   }}"
+    #   when: item != '' # Don't bother recreating $HOME
+
+    # - name: Create links to cloud files and directories
+    #   file:
+    #     src: "{{rclone.sync_dir ~ '/dropbox/' ~ item.src | default(item)}}"
+    #     path: "{{ansible_env.HOME ~ '/' ~ item.path | default(item.src) | default(item)}}"
+    #     state: link
+    #   loop: "{{
+    #     __files.results | map(attribute='files') | flatten | map(attribute='path') |
+    #       map('regex_replace', rclone.sync_dir ~ '/dropbox/', '') +
+    #     other_dropbox_links +
+    #     [] | unique
+    #   }}"
+
+    # - name: Force create links to cloud files and directories
+    #   file:
+    #     src: "{{rclone.sync_dir ~ '/' ~ item.src}}"
+    #     path: "{{ansible_env.HOME ~ '/' ~ item.path}}"
+    #     state: link
+    #     force: yes
+    #     follow: no
+    #   loop: "{{ other_cloud_links }}"
+
+# dropbox_links:
+#   # Usage:
+#   #   file: link every file, recursively
+#   #   directory: link child directories. Do not recurse
+#   - ['dropbox/etc', 'file']
+#   - ['dropbox/.mutt', 'file']
+#   - ['dropbox/.news', 'file']
+#   - ['dropbox/opt', 'file']
+#   - ['dropbox/.slrn', 'file']
+#   - ['dropbox/.ssh', 'file']
+#   - ['dropbox/.todo', 'file']
+#   - ['dropbox/.vdirsyncer', 'file']
+#   - ['dropbox/share/dict', 'file']
+#   - ['dropbox/share/misc', 'file']
+#   - ['dropbox/src', 'directory']
+#   - ['dropbox/docs', 'directory']
+#   - ['dropbox/share/games', 'directory']
+#   - ['dropbox/share/music', 'directory']
+
+# other_dropbox_links:
+#   - src: share/avatars
+#   - src: share/backgrounds
+#   - src: share/bitmaps
+#   - src: share/fonts
+#   - src: share/icons
+#   - src: share/license-keys
+#   - src: share/nerd-font
+#   - src: share/readable-licenses
+#   - src: etc/ssh/allowed_signers
+#     path: .ssh/allowed_signers
+#   - src: etc/pki/irc
+#     path: .irssi/certs
+#   - src: etc/goobook/goobook_auth.json
+#     path: .goobook_auth.json
+#   - src: etc/goobook/goobook_client_secret.json
+#     path: .goobook_client_secret.json
+#   - src: etc/geekcode
+#     path: .geekcode
+#   - src: share/backgrounds/wallpaper/mountains.jpg
+#     path: .wallpaper0
+#   - src: share/sidebery
+#     path: "{{xdg.user_dirs.download}}/sidebery"
+
+# other_cloud_links:
+# - src: google/Documents
+#   path: docs/google
+# - src: onedrive/Documents/Office Lens
+#   path: docs/lens
+# - src: onedrive/Documents/General
+#   path: docs/onedrive
+# - src: onedrive/Boardgames
+#   path: games/boardgames
+# - src: onerive/Kriegsspiel
+#   path: games/kriegsspiel
+# - src: onedrive/Maps
+#   path: games/maps
+
