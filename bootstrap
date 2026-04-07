@@ -46,13 +46,6 @@ ansible-playbook -i localhost, -c local /dev/stdin <<END || exit 1
 - hosts: all
   tasks:
 
-  # The old hashing algorithm is deprecated
-  - name: Install Python passlib
-    dnf:
-      name: python3-passlib
-      state: latest    
-      install_weak_deps: false
-
   - name: Create ansible user
     user:
       name: $ansible_user
@@ -84,6 +77,13 @@ ansible-playbook -i localhost, -c local /dev/stdin <<END || exit 1
     loop:
       - role
       - collection
+
+  # Required to generate passwords as the old hashing algorithm is deprecated
+  - name: Install Python passlib
+    dnf:
+      name: python3-passlib
+      state: latest    
+      install_weak_deps: false
 END
 
 printf 'Copying private variables file (%s) to baseline directory...\n' \
