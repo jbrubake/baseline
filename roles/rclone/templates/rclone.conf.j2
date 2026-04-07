@@ -2,8 +2,10 @@
 [{{config.name}}]
 type = {{config.type}}
 token = {{config.token}}
+{% if "properties" in config %}
 {% for k, v in config.properties.items() %}
 {{k}} = {{v}}
 {% endfor %}
+{% endif %}
 
 {% endfor %}
