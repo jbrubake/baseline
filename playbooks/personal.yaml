@@ -37,7 +37,9 @@
     # TODO: How to use ansible commands without deleting non-empty directories?
     # TODO: When is this changed?
     - name: Delete standard XDG data directories if different
-      command: rmdir "{{[ansible_env.HOME, item.1] | path_join}}"
+      command:
+        cmd: rmdir "{{[ansible_env.HOME, item.1] | path_join}}"
+        removes: "{{[ansible_env.HOME, item.1] | path_join}}"
       # 'dummy' is so ~/.local is always removed if empty
       # xdg.data_dirs is expanded explicitly so the order is always correct
       loop: "{{
@@ -96,7 +98,9 @@
 
       # TODO: How to use ansible commands without deleting non-empty directories?
       - name: Remove old, empty XDG directories
-        command: rmdir "{{item}}"
+        command:
+          cmd: rmdir "{{item}}"
+          removes: "{{item}}"
         loop: "{{current_xdg}}"
         when:
           - item != ansible_env.HOME # Undefined directories default to $HOME
@@ -328,7 +332,9 @@
       register: __files
 
     - name: Create fortune cookie data files
-      command: strfile "{{item}}"
+      command:
+        cmd: strfile "{{item}}"
+        creates: "{{item ~ '.dat'}}"
       loop: "{{__files.files|map(attribute='path')}}"
       changed_when: not item ~ '.dat' in __files.files|map(attribute='path')
       when:
@@ -352,7 +358,9 @@
           remote_src: true
 
       - name: Install browserpass application
-        command: "{{item}}"
+        command:
+          cmd: "{{item}}"
+          creates: "{{[ansible_env.HOME, 'bin/browserpass-linux64'] | path_join}}"
         args:
           chdir: "{{[ansible_env.HOME, personal_pkgs_default_dest, browserpass_url | basename | replace('.tar.gz', '')] | path_join}}"
         environment:
