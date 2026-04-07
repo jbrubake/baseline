@@ -45,6 +45,8 @@ third_party_repos: # {{{1
     gpgkey:
       - https://rpm.releases.hashicorp.com/gpg
 
+# URL setup {{{1
+#
 tea_version_lookup: "{{lookup('ansible.builtin.url', 'https://gitea.com/api/v1/repos/gitea/tea/releases/latest')}}"
 tea_url: "{{tea_version_lookup.assets|selectattr('name', 'search', 'linux-amd64.xz$')|map(attribute='browser_download_url')|first}}"
 

@@ -40,7 +40,6 @@
   register: _installed
   failed_when: false
 
-
 - name: Get list of outdated packages
   command: "{{pip_safe__install_dir}}/{{item}}/bin/pip list --outdated"
   loop: "{{packages}}"
