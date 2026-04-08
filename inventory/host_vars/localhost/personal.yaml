@@ -187,7 +187,13 @@ libvirt:
 # List of directories to create relative to $HOME {{{2
 #
 directories_to_create:
-  - .news # USENET posts
+  # USENET
+  - .news
+  - .news/postponed
+
+  # newsboat
+  - "{{[xdg.data_dirs.cache, 'newsboat'] | path_join}}"
+
   - bin
   - lib
 
