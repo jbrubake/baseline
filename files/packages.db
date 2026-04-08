@@ -18,6 +18,7 @@ angband                               | system  | XXXXX     | Popular roguelike 
 arandr                                | system  | XXXXX     | Simple GTK+ XRandR GUI                                                                                        | https://gitlab.com/arandr/arandr
 asciiquarium                          | system  | XXXXX     | Terminal aquarium                                                                                             | http://www.cyberciti.biz/tips/linux-unix-apple-osx-terminal-ascii-aquarium.html
 autoconf                              | system  | devel     | A GNU tool for automatically configuring source code                                                          | https://www.gnu.org/software/autoconf/
+autoconf-archive                      | system  | XXXXX     | The Autoconf Macro Archive                                                                                    | https://www.gnu.org/software/autoconf-archive
 automake                              | system  | devel     | A GNU tool for automatically creating Makefiles                                                               | http://www.gnu.org/software/automake/
 awesome                               | system  | XXXXX     | Window manager                                                                                                | https://awesomewm.org
 banner                                | system  | XXXXX     | Prints a short string to the console in very large letters                                                    | https://github.com/pronovic/banner
@@ -64,6 +65,7 @@ duf                                   | system  | XXXXX     | Disk Usage/Free Ut
 dunst                                 | system  | x-basic   | notification daemon                                                                                           | https://dunst-project.org/
 dvtm                                  | system  | XXXXX     | Tiling window management for the console                                                                      | http://www.brain-dump.org/projects/dvtm
 elinks                                | system  | XXXXX     | A text-mode Web browser                                                                                       | https://github.com/rkd77/elinks
+evince                                | system  | XXXXX     | Document viewer                                                                                               | https://wiki.gnome.org/Apps/Evince
 exiv2                                 | system  | XXXXX     | Exif and Iptc metadata manipulation tool                                                                      | https://www.exiv2.org
 fd-find                               | system  | XXXXX     | Simple, fast and user-friendly alternative to find                                                            | https://github.com/sharkdp/fd
 feh                                   | system  | x-basic   | Fast command line image viewer using Imlib2                                                                   | http://feh.finalrewind.org
