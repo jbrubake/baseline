@@ -37,6 +37,7 @@ boxes                                 | system  | XXXXX     | Draw any kind of b
 brightnessctl                         | system  | basic     | Read and control device brightness                                                                            | https://github.com/Hummer12007/brightnessctl
 bsd-games                             | system  | XXXXX     | Collection of text-based games                                                                                | https://github.com/msharov/bsd-games
 btop                                  | system  | XXXXX     | Modern and colorful command line resource monitor that shows usage and stats                                  | https://github.com/aristocratos/btop
+cabextract                            | system  | x-games   | Utility for extracting cabinet (.cab) archives                                                                | https://www.cabextract.org.uk/
 calcurse                              | system  | XXXXX     | Text-based personal organizer                                                                                 | https://www.calcurse.org
 calendar                              | system  | basic     | Reminder utility                                                                                              | http://www.openbsd.org/cgi-bin/cvsweb/src/usr.bin/calendar
 catimg                                | system  | XXXXX     | Print images in a terminal with 256 colors support                                                            | https://github.com/posva/catimg
@@ -97,6 +98,7 @@ imv                                   | system  | XXXXX     | Image viewer for X
 inxi                                  | system  | XXXXX     | Full featured system information script                                                                       | https://github.com/smxi/inxi
 iptables-utils                        | system  | XXXXX     | iptables misc utilities (including iptables-apply)                                                            | https://git.netfilter.org/iptables
 iptraf-ng                             | system  | XXXXX     | A console-based network monitoring utility                                                                    | https://github.com/iptraf-ng/iptraf-ng/
+java-latest-openjdk                   | system  | x-games   | OpenJDK Runtime Environment                                                                                   | http://openjdk.java.net/
 kcachegrind                           | system  | XXXXX     | GUI to profilers such as Valgrind (Qt)                                                                        | http://kcachegrind.sourceforge.net/html/Home.html
 keychain                              | system  | basic     | Agent manager for OpenSSH, ssh.com, Sun SSH, and GnuPG                                                        | https://www.funtoo.org/Keychain
 lagrange                              | system  | XXXXX     | A Beautiful Gemini Client                                                                                     | https://gmi.skyjake.fi/lagrange/
