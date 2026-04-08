@@ -1,7 +1,5 @@
 ---
 
-# TODO: Convert to Wayland or at least use Wayland X11 wrapper
-# TODO: What is the minimum package list?
 - name: Install Xorg
   become: yes
   package:

@@ -1,11 +1,5 @@
 ---
 
-# TODO: template things that exist in ansible and dotfiles
-# by using 'templatefile' prior to running 'make install'
-# in the dotfiles repo. This could be extended to other
-# things as well. Probably a good solution for the private
-# data that isn't easy to pull out of the repo
-
 browserpass_version_lookup: "{{lookup('ansible.builtin.url', 'https://api.github.com/repos/browserpass/browserpass-native/releases/latest')}}"
 browserpass_url: "{{browserpass_version_lookup.assets|selectattr('name', 'search', 'linux64-.*\\.tar\\.gz$')|map(attribute='browser_download_url')|first}}"
 

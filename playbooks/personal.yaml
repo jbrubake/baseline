@@ -28,8 +28,6 @@
     #
     # Configure XDG data directories {{{2
     #
-    # TODO: How to use ansible commands without deleting non-empty directories?
-    # TODO: When is this changed?
     - name: Delete standard XDG data directories if different
       command:
         cmd: rmdir "{{[ansible_env.HOME, item.1] | path_join}}"
@@ -60,7 +58,6 @@
       set_fact:
         xdg_keys: "{{xdg.user_dirs|dict2items|map(attribute='key')|upper}}"
 
-    # TODO: Figure out how to use path_join
     - name: Set "desired_xdg"
       set_fact:
         desired_xdg: "{{[ansible_env.HOME + '/']|product(xdg.user_dirs|dict2items|map(attribute='value'))|map('join')}}"
@@ -90,7 +87,6 @@
         set_fact:
           current_xdg: "{{_user_dirs.results|map(attribute='stdout_lines')|flatten}}"
 
-      # TODO: How to use ansible commands without deleting non-empty directories?
       - name: Remove old, empty XDG directories
         command:
           cmd: rmdir "{{item}}"
@@ -221,7 +217,6 @@
         - keys
         - sockets # Needed for my ControlMaster configuration
 
-    # TODO: What other SSH keys do I need? How to get them on servers?
     - name: Generate SSH key for github acces
       openssh_keypair:
         passphrase: "{{github.sshkey_passphrase}}"
@@ -291,7 +286,6 @@
           repo: https://github.com/k-takata/minpac.git
           dest: "{{[ansible_env.HOME, vim.config_dir|default('.vim'), vim.minpac_dir, 'opt/minpac'] | path_join}}"
 
-      # TODO: How to tell when this is changed?
       - name: Install vim plugins
         command: vim +PackUpdateAndQuit
 
@@ -303,8 +297,6 @@
       include_role:
         name: libvirt
         tasks_from: create-storage-pools
-
-    # TODO: Add a task to copy images from a local repository
 
     ## Other {{{1
     #
@@ -323,7 +315,6 @@
         changed_when: false
         register: _plugins
 
-      # TODO: This always shows changed, likely because of how the pip module works
       - name: Install plugins
         pip:
           name: "{{item}}"

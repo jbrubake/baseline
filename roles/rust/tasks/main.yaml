@@ -44,7 +44,6 @@
     RUSTUP_HOME: "{{rust__rustup_home}}"
     CARGO_HOME: "{{rust__rustup_home}}"
   register: _out
-  # TODO: Test 'changed_when' when updating multiple rust toolchains
   changed_when: not 'unchanged' in _out.stdout
 
 - name: Add 'rust' to $PATH

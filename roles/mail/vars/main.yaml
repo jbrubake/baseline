@@ -1,6 +1,5 @@
 ---
 
-# TODO: split installed packages into required and optional
 mail__packages:
   - compface      # Library and tools for handling X-Face data                                 | http://ftp.xemacs.org/pub/xemacs/aux/
   - imapfilter    # A flexible client side mail filtering utility for IMAP servers             | https://github.com/lefcha/imapfilter/

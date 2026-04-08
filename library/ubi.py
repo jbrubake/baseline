@@ -1,5 +1,3 @@
-#!/usr/bin/python3 
-# TODO: remove shebang when done testing
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jeremy Brubaker <jbrubake@orionarts.io>
@@ -196,7 +194,6 @@ EXAMPLES = r"""
     checksum: sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c
 """
 
-# TODO: Validate all return values are accurate
 RETURN = r"""
 backup_file:
     description: name of backup file created after download
@@ -422,7 +419,6 @@ def main():
         # not checking because of daisy chain to file module
         argument_spec        = argument_spec,
         add_file_common_args = True,
-        # TODO: Validate check_mode
         supports_check_mode  = True,
 
         required_one_of    = [('project', 'url')],
@@ -467,8 +463,6 @@ def main():
             algorithm, checksum = checksum.split(':', 1)
         except ValueError:
             module.fail_json(msg="The checksum parameter has to be in format <algorithm>:<checksum>", **result)
-
-        # TODO: Support getting checksum value from a URL
 
         # Remove any non-alphanumeric characters, including the infamous
         # Unicode zero-width space
@@ -534,7 +528,6 @@ def main():
     # raise an error if there is no tmpsrc file
     if not os.path.exists(tmpsrc):
         os.remove(tmpsrc)
-        # TODO: Include ubi error
         module.fail_json(msg="Request failed");
     if not os.access(tmpsrc, os.R_OK):
         os.remove(tmpsrc)

@@ -5,7 +5,6 @@ common__timezone:        "{{common.timezone        | default('America/New_York')
 common__locale:          "{{common.locale          | default('en_US.utf-8')}}"
 common__keymap:          "{{common.keymap          | default('us')}}"
 common__password_length: "{{common.password_length | default('8')}}"
-# TODO: Where should passwords be written by default?
 common__password_dir:    "{{common.password_dir    | default(ansible_env.HOME)}}"
 common__users:           "{{common.users           | default([])}}"
 common__install_dash:    "{{common.install_dash    | default('yes')}}"

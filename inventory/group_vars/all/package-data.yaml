@@ -15,9 +15,6 @@ third_party_repos: # {{{1
     baseurl: http://dl.google.com/linux/earth/rpm/stable/X86_64
     gpgkey: https://dl.google.com/linux/linux_signing_key.pub
 
-  # TODO: need to set repo priority lower than Fedora repos so that .NET is
-  # installed from Fedora and **not** Microsoft
-  # dnf config-manager setopt microsoft.priority=100
   - name: powershell
     reponame: microsoft
     description: Microsoft
@@ -51,7 +48,6 @@ tea_version_lookup: "{{lookup('ansible.builtin.url', 'https://gitea.com/api/v1/r
 tea_url: "{{tea_version_lookup.assets|selectattr('name', 'search', 'linux-amd64.xz$')|map(attribute='browser_download_url')|first}}"
 
 ubi: # {{{1
-  # TODO: This has an RPM now
   - name: drawio
     project: jgraph/drawio-desktop
     regex: drawio-x86_64-.*.AppImage
@@ -66,7 +62,6 @@ ubi: # {{{1
     project: mikefarah/yq
   - name: rpg-cli
     project: facundoolano/rpg-cli
-  # TODO: This shouldn't be hard to make into an RPM
   - name: veracrypt
     project: veracrypt/VeraCrypt
     regex: VeraCrypt-.*-x86_64.AppImage

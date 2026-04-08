@@ -9,7 +9,6 @@
   loop_control:
     loop_var: _item
 
-  # TODO: Is it possible to install quicklisp system-wide?
 - name: Install quicklisp
   tags:
     - user
