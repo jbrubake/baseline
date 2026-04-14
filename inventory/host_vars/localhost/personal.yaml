@@ -14,14 +14,14 @@ browserpass_url: "{{browserpass_version_lookup.assets|selectattr('name', 'search
 #
 xdg:
   user_dirs:
-    desktop: desktop
+    desktop: ''
     download: downloads
-    templates: templates
-    publicshare: public
+    templates: ''
+    publicshare: ''
     documents: docs
-    music: music
-    pictures: pictures
-    videos: videos
+    music: ''
+    pictures: ''
+    videos: ''
   data_dirs:
     data: share
     config: .config
