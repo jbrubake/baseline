@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Look at how to make this script secure against spaces in file names
+(/bin/ls -t $HOME/share/sidebery/*.md | /bin/tail -n+5; /bin/ls -t $HOME/share/sidebery/*.json | /bin/tail -n+5) | xargs rm -f --
+

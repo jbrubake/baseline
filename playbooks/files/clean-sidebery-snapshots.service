@@ -1,0 +1,9 @@
+[Unit]
+Description=Delete old Sidebery snapshots
+After=multi-user.target
+
+[Service]
+ExecStart=/home/jbrubake/bin/clean-sidebery-snapshots
+
+[Install]
+WantedBy=default.target

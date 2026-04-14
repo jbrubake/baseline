@@ -385,3 +385,39 @@
 
       when: _has_firefox.rc == 0
     # }}}
+    # Add service to manage Sidebery snapshots {{{
+    #
+    - name: Create script
+      copy:
+        src: files/clean-sidebery-snapshots
+        dest: "{{[ansible_env.HOME, 'bin'] | path_join}}"
+        mode: '0755'
+
+    - name: Create service files
+      copy:
+        src: "{{item}}"
+        dest: "{{[ansible_env.HOME, xdg.data_dirs.config, 'systemd/user'] | path_join}}"
+      notify: Restart clean-sidebery-snapshots
+      loop:
+        - files/clean-sidebery-snapshots.service
+        - files/clean-sidebery-snapshots.timer
+
+    - name: Enable services
+      systemd_service:
+        name: "{{item}}"
+        enabled: true
+        scope: user
+      loop:
+        - clean-sidebery-snapshots.timer
+    # }}}
+
+  handlers: # {{{1
+    - name: Restart clean-sidebery-snapshots
+      systemd_service:
+        name: "{{item}}"
+        daemon_reload: true
+        state: restarted
+        scope: user
+      loop:
+        - clean-sidebery-snapshots.timer
+

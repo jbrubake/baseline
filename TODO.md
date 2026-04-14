@@ -26,7 +26,6 @@
 - Run `gcloud init` if `gcloud` is installed
 - Update mopidy plugins
 - Update packages installed from source
-- Create a systemd service to delete old Sidebery snapshots
 - Update fortune dat files. (Could this instead be done with a local CI/CD pipeline?)
 - Generate files from `dotfiles` templates
 - Copy `libvirt` images from a local repository

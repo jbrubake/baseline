@@ -1,0 +1,10 @@
+[Unit]
+Description=Periodically delete old Sidebery snapshots
+
+[Timer]
+Unit=clean-sidebery-snapshots.service
+OnCalendar=*:0/10:0
+
+[Install]
+WantedBy=timers.target
+
