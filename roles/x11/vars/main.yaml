@@ -1,5 +1,11 @@
 ---
 
+x11__required_packages:
+    - xorg-x11-server-Xorg # Xorg X server                                   | http://www.x.org
+    - xorg-x11-xinit       # X.Org X11 X Window System xinit startup scripts | https://www.x.org
+    - xorg-x11-xauth       # X.Org X11 X authority utilities                 | https://www.x.org
+    - "{{x11__terminal}}"
+
 x11__drivers:
   # I don't know what's actually needed so I installed them all
   - xorg-x11-drv-*
