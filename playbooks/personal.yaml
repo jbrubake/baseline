@@ -60,10 +60,6 @@
     # Configure XDG user directories {{{2
     #
 
-    - name: Set "xdg_keys"
-      set_fact:
-        xdg_keys: "{{xdg.user_dirs|dict2items|map(attribute='key')|upper}}"
-
     - name: Set "desired_xdg"
       set_fact:
         desired_xdg: "{{[ansible_env.HOME + '/']|product(xdg.user_dirs|dict2items|map(attribute='value'))|map('join')}}"
@@ -85,7 +81,15 @@
 
       - name: Get list of current directories
         command: xdg-user-dir {{item}}
-        loop: "{{xdg_keys}}"
+        loop: 
+          - DESKTOP
+          - DOWNLOAD
+          - TEMPLATES
+          - PUBLICSHARE
+          - DOCUMENTS
+          - MUSIC
+          - PICTURES
+          - VIDEOS
         register: _user_dirs
         changed_when: false
 
@@ -104,9 +108,9 @@
         failed_when: false # Do not fail if directory is not empty
 
       - name: Update XDG user directories
-        command: xdg-user-dirs-update --set "{{item.0}}" "{{item.1}}"
-        loop: "{{xdg_keys|zip(desired_xdg)}}"
-        when: not item.1 in current_xdg
+        command: xdg-user-dirs-update --set "{{item.key|upper}}" "{{[ansible_env.HOME, item.value] | path_join}}"
+        loop: "{{xdg.user_dirs|dict2items}}"
+        when: not item.value in current_xdg
 
       when: _do_xdg.rc == 0
 
