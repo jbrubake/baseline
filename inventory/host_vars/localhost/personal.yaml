@@ -220,6 +220,7 @@ directories_to_create:
   - "{{[xdg.data_dirs.cache, 'mutt/tmp'] | path_join}}"
   - "{{[xdg.data_dirs.cache, 'mutt/headers'] | path_join}}"
 
+  - "{{[xdg.data_dirs.state, 'mopidy'] | path_join}}"
   - "{{[xdg.data_dirs.cache, 'mopidy'] | path_join}}"
 
   # TODO: Should these be created by a podman role?
@@ -234,7 +235,6 @@ directories_to_create:
   # TODO: Configure dotfiles to use that default
   - "{{[xdg.data_dirs.state, '../log'] | path_join}}"
   - "{{[xdg.data_dirs.state, '../run'] | path_join}}"
-  - "{{[xdg.data_dirs.state, '../spool'] | path_join}}"
   - "{{[xdg.data_dirs.state, '../spool/anacron'] | path_join}}" # anacron(8) spool
 
 # Links to create into a directory tree {{{2
