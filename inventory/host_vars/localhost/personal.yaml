@@ -84,7 +84,7 @@ github:
 #   make
 #   make install
 #
-personal_pkgs_default_dest: src
+personal_pkgs_default_dest: "{{xdg.data_dirs.src}}"
 
 personal_pkgs:
   - name: dotfiles
