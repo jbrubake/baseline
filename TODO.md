@@ -76,7 +76,6 @@
 
 ### x11
 
-- Should `xterm` always be installed?
 - Create a Wayland role ar at least use the Wayland X11 wrapper
 - What are the minimum required packages for X?
 - Move packages lists out of `tasks` and into `vars/main.yaml`

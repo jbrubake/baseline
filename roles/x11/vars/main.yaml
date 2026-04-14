@@ -4,6 +4,7 @@ x11__required_packages:
     - xorg-x11-server-Xorg # Xorg X server                                   | http://www.x.org
     - xorg-x11-xinit       # X.Org X11 X Window System xinit startup scripts | https://www.x.org
     - xorg-x11-xauth       # X.Org X11 X authority utilities                 | https://www.x.org
+    - xterm                # Terminal emulator for the X Window System       | https://invisible-island.net/xterm
     - "{{x11__terminal}}"
 
 x11__drivers:
