@@ -73,6 +73,7 @@
         baseurl: "{{item.baseurl}}"
         gpgcheck: yes
         gpgkey: "{{item.gpgkey}}"
+        priority: "{{item.priority|default(1)}}"
       loop: "{{third_party_repos|default([])}}"
       when: item.name in third_pkg
 

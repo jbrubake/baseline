@@ -13,8 +13,6 @@
 ### main.yaml
 
 - Install `ubi` with an RPM
-- Allow setting third-party repository priority (needed so .NET is installed
-    from Fedora and not Microsoft)
 - Generate bash completion from Python scripts using `shtab`
 - Create swap space to enable hibernation
 
