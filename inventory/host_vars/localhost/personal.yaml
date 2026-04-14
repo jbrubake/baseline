@@ -53,8 +53,10 @@ ssh:
 
 # Configure GitHub access {{{1
 #
-# sshkey_passphrase: Passphrase for generated GitHub SSH key
-# sshkey_name: Name of generated GitHub SSH key
+# sshkey: SSH key for GitHub access
+#   name: Path of keypair (relative to ~/.ssh)
+#   passphrase: Passphrase for keypair (default: '')
+#   type: Keypair type (default: ed25519)
 # hostkey: GitHub SSH host key
 # pat: GitHub Personal Access Token with privileges to add SSH keys
 #
@@ -220,6 +222,7 @@ directories_to_create:
   - "{{[xdg.data_dirs.cache, 'mutt/tmp'] | path_join}}"
   - "{{[xdg.data_dirs.cache, 'mutt/headers'] | path_join}}"
 
+  # TODO: Should these be created by an audio role?
   - "{{[xdg.data_dirs.state, 'mopidy'] | path_join}}"
   - "{{[xdg.data_dirs.cache, 'mopidy'] | path_join}}"
 

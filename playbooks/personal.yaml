@@ -3,14 +3,19 @@
 - name: Configure my workspace
   hosts: localhost
 
-  # NOTE: Set these so the proper directories are used
+  ## Set XDG variables for use by all tasks {{{
+  #
   environment:
     XDG_DATA_HOME:   "{{[ansible_env.HOME, xdg.data_dirs.data] | path_join}}"
     XDG_CONFIG_HOME: "{{[ansible_env.HOME, xdg.data_dirs.config] | path_join}}"
     XDG_STATE_HOME:  "{{[ansible_env.HOME, xdg.data_dirs.state] | path_join}}"
     XDG_CACHE_HOME:  "{{[ansible_env.HOME, xdg.data_dirs.cache] | path_join}}"
+  # }}}
 
   tasks:
+
+    ## Finish configuring XDG variables {{{1
+    #
     - name: Pull in XDG variables
       gather_facts:
 

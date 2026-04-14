@@ -9,8 +9,8 @@ x11__required_packages:
 
 x11__drivers:
   # I don't know what's actually needed so I installed them all
-  - xorg-x11-drv-*
-  - mesa-dri-drivers
+  - xorg-x11-drv-*   # Xorg X11 drivers       | various
+  - mesa-dri-drivers # Mesa-based DRI drivers | https://mesa3d.org
 
 x11__utils:
   - xbindkeys              # Binds keys or mouse buttons to shell commands under X   | http://www.nongnu.org/xbindkeys/
