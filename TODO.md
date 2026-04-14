@@ -15,7 +15,6 @@
 - Install `ubi` with an RPM
 - Allow setting third-party repository priority (needed so .NET is installed
     from Fedora and not Microsoft)
-- Enable RPM Fusion
 - Generate bash completion from Python scripts using `shtab`
 - Create swap space to enable hibernation
 

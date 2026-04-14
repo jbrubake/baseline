@@ -26,6 +26,7 @@
         - lisp
         - google-cloud
         - virtualbox
+        - rpm-fusion
 
     - name: Generate package lists
       include_tasks: ../tasks/get_packages.yaml

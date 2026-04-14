@@ -1,0 +1,19 @@
+---
+
+- name: Install necessary packages
+  package:
+    name: distribution-gpg-keys
+    state: latest
+
+- name: Import GPG key
+  rpm_key:
+    key: "{{item}}"
+    state: present
+    loop: "{{rpm_fusion__gpg_keys}}"
+
+- name: Install RPM Fusion RPMs
+  dnf:
+    name: "{{item}}"
+    state: present
+    loop: "{{rpm_fusion__urls}}"
+
