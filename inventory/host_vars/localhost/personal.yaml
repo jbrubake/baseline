@@ -329,14 +329,10 @@ links_to_create:
     path: games/maps
     force: yes
   # TODO: Remove these once XDG_CONFIG_HOME == ~/etc
-  - src: dropbox/etc/cointop/config.toml
-    path: .config/cointop/config.toml      
   - src: dropbox/etc/doctl/config.yaml
     path: .config/doctl/config.yaml        
   - src: dropbox/etc/gh/hosts.yml
     path: .config/gh/hosts.yml            
-  - src: dropbox/etc/mopidy/mopidy.conf
-    path: .config/mopidy/mopidy.conf       
   - src: dropbox/etc/mopidy/ytmusic_auth.json
     path: .config/mopidy/ytmusic_auth.json 
   - src: dropbox/etc/rclone/cloudsync.conf
@@ -345,8 +341,6 @@ links_to_create:
     path: .config/shodan/api_key           
   - src: dropbox/etc/tea/config.yml
     path: .config/tea/config.yml           
-  - src: dropbox/etc/tuir/tuir.cfg
-    path: .config/tuir/tuir.cfg            
 
 # Files to copy {{{1
 #
