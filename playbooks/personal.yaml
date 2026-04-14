@@ -103,7 +103,7 @@
           removes: "{{item}}"
         loop: "{{current_xdg}}"
         when:
-          - item != ansible_env.HOME # Undefined directories default to $HOME
+          - item != ansible_env.HOME~'/' # Undefined directories default to $HOME
           - not item in desired_xdg  # Keep the ones I want
         failed_when: false # Do not fail if directory is not empty
 
