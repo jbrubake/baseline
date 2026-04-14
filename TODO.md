@@ -23,7 +23,6 @@
 - Use `path_join` when generating `desired_xdg`
 - Installing `mopidy` plugins with `pip` always shows changed, likely due to how
     the `pip` module works
-- Run `gcloud init` if `gcloud` is installed
 - Update mopidy plugins
 - Update packages installed from source
 - Update fortune dat files. (Could this instead be done with a local CI/CD pipeline?)
@@ -115,6 +114,7 @@ pydf                | pipx | df(1) clone with colour output             | https:
 
 # Post Baseline Tasks
 
+- Prompt user to run `gcloud init` if `gcloud` is installed
 - Prompt user to login to firefox sync
 - Prompt user to configure Tridactyl Native Messaging by typing
   `:installnative<ENTER>` in Firefox and then running the command it prints
