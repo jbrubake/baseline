@@ -40,7 +40,7 @@
 
 - name: Enable docker service
   become: yes
-  systemd_service:
+  service:
     name: docker
     enabled: true
 
