@@ -222,21 +222,19 @@
         path: "{{[ansible_env.HOME, '.ssh', item] | path_join}}"
         state: directory
         mode: 0700
-      loop:
-        - config.d
-        - keys
-        - sockets # Needed for my ControlMaster configuration
+      loop: "{{ssh.directories}}"
 
-    - name: Generate SSH key for github acces
+    - name: Generate SSH keys
       openssh_keypair:
-        passphrase: "{{github.sshkey_passphrase}}"
-        path: "{{[ansible_env.HOME, '.ssh', github.sshkey_name] | path_join}}"
-        type: ed25519
+        path: "{{[ansible_env.HOME, '.ssh', item.name] | path_join}}"
+        passphrase: "{{item.passphrase | default('')}}"
+        type: "{{item.type | default('ed25519')}}"
+      loop: "{{ssh.keypairs + [github.sshkey]}}"
 
     - name: Add SSH key to Github
       github_key:
         name: "{{ansible_user_id}}@{{ansible_hostname}}"
-        pubkey: "{{lookup('file', [ansible_env.HOME, '.ssh', github.sshkey_name~'.pub'] | path_join)}}"
+        pubkey: "{{lookup('file', [ansible_env.HOME, '.ssh', github.sshkey.name~'.pub'] | path_join)}}"
         token: "{{github.pat}}"
 
     - name: Add github.com's SSH hostkey

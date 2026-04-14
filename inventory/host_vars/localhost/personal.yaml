@@ -34,6 +34,22 @@ xdg:
     opt: opt
     src: src
 
+# SSH Configuration {{{1
+#
+# directories: List of directories to create under ~/.ssh
+# keypairs: SSH keypairs to generate
+#   name: Path of keypair (relative to ~/.ssh)
+#   passphrase: Passphrase for keypair (default: '')
+#   type: Keypair type (default: ed25519)
+ssh:
+  directories:
+    - config.d
+    - keys
+    - sockets # Needed for my ControlMaster configuration
+  keypairs:
+    - name: id_ed25519
+    - name: keys/roka.live
+    - name: keys/gitea.roka.live
 
 # Configure GitHub access {{{1
 #
@@ -43,8 +59,9 @@ xdg:
 # pat: GitHub Personal Access Token with privileges to add SSH keys
 #
 github:
-  sshkey_passphrase: "{{private.gh_passphrase}}"
-  sshkey_name: github
+  sshkey:
+    name: github
+    passphrase: "{{private.gh_passphrase}}"
   # Current as of 19-Jan-24
   hostkey: github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
   pat: "{{private.gh_pat}}"

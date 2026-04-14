@@ -21,7 +21,6 @@
 - Remove directories only if empty
 - Set `changed_when` for all `command` tasks
 - Use `path_join` when generating `desired_xdg`
-- Do additional SSH keys need to be generated?
 - Installing `mopidy` plugins with `pip` always shows changed, likely due to how
     the `pip` module works
 - Run `gcloud init` if `gcloud` is installed
