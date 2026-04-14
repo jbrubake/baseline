@@ -3,6 +3,34 @@
 browserpass_version_lookup: "{{lookup('ansible.builtin.url', 'https://api.github.com/repos/browserpass/browserpass-native/releases/latest')}}"
 browserpass_url: "{{browserpass_version_lookup.assets|selectattr('name', 'search', 'linux64-.*\\.tar\\.gz$')|map(attribute='browser_download_url')|first}}"
 
+# Configure XDG directories {{{1
+#
+# xdg.user_dirs: user directories configured with xdg-user-dir
+# xdg.data_dirs: data directories
+#
+# key: shortened XDG directory name (e.g., desktop => XDG_DESKTOP_DIR, data =>
+#   XDG_DATA_HOME)
+# value: path relative to $HOME
+#
+xdg:
+  user_dirs:
+    desktop: desktop
+    download: downloads
+    templates: templates
+    publicshare: public
+    documents: docs
+    music: music
+    pictures: pictures
+    videos: videos
+  data_dirs:
+    data: share
+    config: .config
+    # TODO: This cannot be changed until dotfiles are changed
+    # config: etc
+    state: var/lib
+    cache: var/cache
+
+
 # Configure GitHub access {{{1
 #
 # sshkey_passphrase: Passphrase for generated GitHub SSH key
@@ -56,33 +84,6 @@ personal_pkgs:
   - name: .password-store
     repo: git@github.com:jbrubake/password-store.git
     dest: "{{ansible_env.HOME}}"
-
-# Configure XDG directories {{{1
-#
-# xdg.user_dirs: user directories configured with xdg-user-dir
-# xdg.data_dirs: data directories
-#
-# key: shortened XDG directory name (e.g., desktop => XDG_DESKTOP_DIR, data =>
-#   XDG_DATA_HOME)
-# value: path relative to $HOME
-#
-xdg:
-  user_dirs:
-    desktop: desktop
-    download: downloads
-    templates: templates
-    publicshare: public
-    documents: docs
-    music: music
-    pictures: pictures
-    videos: videos
-  data_dirs:
-    data: share
-    config: .config
-    # TODO: This cannot be changed until dotfiles are changed
-    # config: etc
-    state: var/lib
-    cache: var/cache
 
 # Configure vim {{{1
 #
