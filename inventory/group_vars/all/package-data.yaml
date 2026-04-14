@@ -20,6 +20,7 @@ third_party_repos: # {{{1
     description: Microsoft
     baseurl: https://packages.microsoft.com/rhel/9/prod/
     gpgkey: https://packages.microsoft.com/rhel/9/prod/repodata/repomd.xml.key
+    priority: 99
 
   - name: wine-stable
     reponame: wine
