@@ -47,6 +47,9 @@ third_party_repos: # {{{1
 tea_version_lookup: "{{lookup('ansible.builtin.url', 'https://gitea.com/api/v1/repos/gitea/tea/releases/latest')}}"
 tea_url: "{{tea_version_lookup.assets|selectattr('name', 'search', 'linux-amd64.xz$')|map(attribute='browser_download_url')|first}}"
 
+browserpass_version_lookup: "{{lookup('ansible.builtin.url', 'https://api.github.com/repos/browserpass/browserpass-native/releases/latest')}}"
+browserpass_url: "{{browserpass_version_lookup.assets|selectattr('name', 'search', 'linux64-.*\\.tar\\.gz$')|map(attribute='browser_download_url')|first}}"
+
 ubi: # {{{1
   - name: drawio
     project: jgraph/drawio-desktop

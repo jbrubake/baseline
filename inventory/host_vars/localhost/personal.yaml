@@ -1,8 +1,5 @@
 ---
 
-browserpass_version_lookup: "{{lookup('ansible.builtin.url', 'https://api.github.com/repos/browserpass/browserpass-native/releases/latest')}}"
-browserpass_url: "{{browserpass_version_lookup.assets|selectattr('name', 'search', 'linux64-.*\\.tar\\.gz$')|map(attribute='browser_download_url')|first}}"
-
 # Configure XDG directories {{{1
 #
 # xdg.user_dirs: user directories configured with xdg-user-dir
