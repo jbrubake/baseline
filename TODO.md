@@ -24,7 +24,6 @@
 - Installing `mopidy` plugins with `pip` always shows changed, likely due to how
     the `pip` module works
 - Run `gcloud init` if `gcloud` is installed
-- Configure ansible {stdout,sterr}_callback
 - Update mopidy plugins
 - Update packages installed from source
 - Create a systemd service to delete old Sidebery snapshots

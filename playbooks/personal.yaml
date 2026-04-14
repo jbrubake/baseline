@@ -308,6 +308,11 @@
 
     ## Other {{{1
     #
+    # Configure ansible {{{
+    - include_tasks: ../tasks/set_ansible_callbacks.yaml
+      vars:
+        cfg_file: "{{[ansible_env.HOME, 'ansible.cfg'] | path_join}}"
+    # }}}
     # Install mopidy plugins {{{
     - name: Check for mopidy
       command: mopidy --version

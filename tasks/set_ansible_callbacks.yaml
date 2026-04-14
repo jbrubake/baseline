@@ -1,0 +1,11 @@
+- name: Use ansible debug callbacks
+  ini_file:
+    path: "{{cfg_file | default('/etc/ansible/ansible.cfg')}}"
+    section: defaults
+    option: "{{item}}_callback"
+    value: debug
+    mode: 0644
+  loop:
+    - stdout
+    - stderr
+
