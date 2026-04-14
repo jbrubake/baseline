@@ -23,6 +23,12 @@
         config_home: "{{['$HOME', xdg.data_dirs.config] | path_join}}"
         state_home:  "{{['$HOME', xdg.data_dirs.state] | path_join}}"
         cache_home:  "{{['$HOME', xdg.data_dirs.cache] | path_join}}"
+        local_home:  "{{['$HOME', xdg.data_dirs.local] | path_join}}"
+        lib_home:    "{{['$HOME', xdg.data_dirs.lib] | path_join}}"
+        bin_home:    "{{['$HOME', xdg.data_dirs.bin] | path_join}}"
+        games_home:  "{{['$HOME', xdg.data_dirs.games] | path_join}}"
+        opt_home:    "{{['$HOME', xdg.data_dirs.opt] | path_join}}"
+        src_home:    "{{['$HOME', xdg.data_dirs.src] | path_join}}"
 
     ## Configure XDG directories {{{1
     #

@@ -29,6 +29,13 @@ xdg:
     # config: etc
     state: var/lib
     cache: var/cache
+    # Fake XDG directories
+    local: var
+    lib: lib
+    bin: bin
+    games: games
+    opt: opt
+    src: src
 
 
 # Configure GitHub access {{{1
